@@ -3,13 +3,12 @@
 
 typedef struct  s_philo
 {
-	int		n_philosophers;
+	int		n_philos;
 	int		time_to_die;
 	int		time_to_eat;
 	int		time_to_sleep;
 	int		n_eat;
 }				t_philo;
-
 
 
 #endif

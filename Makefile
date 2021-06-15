@@ -6,10 +6,11 @@ PHILO_ONE_OBJS = ${PHILO_ONE_SRCS:.c=.o}
 PHILO_TWO_OBJS = ${PHILO_TWO_SRCS:.c=.o}
 PHILO_THREE_OBJS = ${PHILO_THREE_SRCS:.c=.o}
 
-all: philo_one philo_two philo_three
+all: philo_one
 
 philo_one: $(PHILO_ONE_OBJS)
-	gcc $(PHILO_ONE_OBJS) -o philo_one
+	make -C ./lib/libft
+	gcc $(PHILO_ONE_OBJS) -o philo_one -L./lib/libft -lft
 
 philo_two: $(PHILO_TWO_OBJS)
 	gcc $(PHILO_TWO_OBJS) -o philo_two
@@ -18,7 +19,13 @@ philo_three: $(PHILO_THREE_OBJS)
 	gcc $(PHILO_THREE_OBJS) -o philo_three
 
 clean:
+	make clean -C ./lib/libft
 	rm -rf $(PHILO_ONE_OBJS) $(PHILO_TWO_OBJS) $(PHILO_THREE_OBJS)
 
 fclean: clean
+	make fclean -C ./lib/libft
 	rm -rf philo_one philo_two philo_three
+
+re: clean fclean
+	make re -C ./lib/libft
+	all
