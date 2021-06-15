@@ -10,4 +10,6 @@ typedef struct  s_philo
 	int		n_eat;
 }				t_philo;
 
+
+
 #endif
