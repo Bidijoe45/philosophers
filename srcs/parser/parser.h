@@ -1,6 +1,8 @@
 #ifndef PARSER_H
 # define PARSER_H
 
+#include "../philo.h"
+
 typedef enum e_parser_error
 {
 	NO_ERROR,

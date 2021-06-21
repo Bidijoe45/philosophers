@@ -1,15 +1,24 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
-#include <errno.h>
+
 
 #include "../philo.h"
 #include "../parser/parser.h"
-#include "../../libft/libft.h"
+#include "../../lib/libft/libft.h"
 
 void philo_one(t_philo *philo)
 {
 	printf("Philo one\n");
+}
+
+void init_philo(t_philo *philo)
+{
+    philo->n_philos = -1;
+    philo->time_to_die = -1;
+    philo->time_to_eat = -1;
+    philo->time_to_sleep = -1;
+    philo->n_eat = -1;
 }
 
 int main(int argc, char **argv)

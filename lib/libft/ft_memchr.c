@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_split.c                                    :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alvrodri <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: apavel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/22 16:44:21 by alvrodri          #+#    #+#             */
-/*   Updated: 2021/03/22 16:45:08 by alvrodri         ###   ########.fr       */
+/*   Created: 2020/01/09 13:11:19 by apavel            #+#    #+#             */
+/*   Updated: 2020/01/10 13:16:13 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_split(char **split)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	int	i;
+	unsigned char	*str;
+	size_t			i;
 
+	str = (unsigned char *)s;
 	i = 0;
-	while (split[i])
+	while (i < n)
 	{
-		free(split[i]);
+		if (str[i] == (unsigned char)c)
+			return (&str[i]);
 		i++;
 	}
-	free(split);
+	return (NULL);
 }

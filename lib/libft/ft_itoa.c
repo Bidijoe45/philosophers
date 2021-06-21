@@ -19,14 +19,8 @@ static size_t	ft_count_digits(long n)
 	size_t	digits;
 	long	num;
 
-	if (n < 0)
-		num = -n;
-	else
-		num = n;
-	if (n < 0)
-		digits = 2;
-	else
-		digits = 1;
+	num = (n < 0) ? -n : n;
+	digits = (n < 0) ? 2 : 1;
 	while (num > 9)
 	{
 		num /= 10;
@@ -35,14 +29,11 @@ static size_t	ft_count_digits(long n)
 	return (digits);
 }
 
-static void	ft_alloc_nums(char *str, long num, size_t div, int digits)
+static void		ft_alloc_nums(char *str, long num, size_t div, int digits)
 {
 	int	i;
 
-	if (num < 0)
-		i = 1;
-	else
-		i = 0;
+	i = (num < 0) ? 1 : 0;
 	if (num < 0)
 	{
 		i = 1;
@@ -62,7 +53,7 @@ static void	ft_alloc_nums(char *str, long num, size_t div, int digits)
 	str[i] = '\0';
 }
 
-char	*ft_itoa(int n)
+char			*ft_itoa(int n)
 {
 	char	*str;
 	int		i;
@@ -72,8 +63,7 @@ char	*ft_itoa(int n)
 
 	num = n;
 	digits = ft_count_digits(num);
-	str = malloc(sizeof(char) * (digits + 1));
-	if (!str)
+	if (!(str = malloc(sizeof(char) * (digits + 1))))
 		return (NULL);
 	div = 1;
 	i = -1;

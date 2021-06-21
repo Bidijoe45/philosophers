@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apavel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/14 13:06:29 by apavel            #+#    #+#             */
-/*   Updated: 2020/01/14 13:42:06 by apavel           ###   ########.fr       */
+/*   Created: 2020/01/08 18:26:12 by apavel            #+#    #+#             */
+/*   Updated: 2020/01/21 12:37:04 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(const char *s1, const char *s2)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	char	*ptr;
-	size_t	i;
-	size_t	j;
+	size_t i;
 
-	if (!s1 || !s2)
+	if (dst == src)
+		return (dst);
+	if (!dst && !src)
 		return (NULL);
-	ptr = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!ptr)
-		return (NULL);
-	i = -1;
-	while (s1[++i] != '\0')
-		ptr[i] = s1[i];
-	j = i;
-	i = -1;
-	while (s2[++i] != '\0')
+	i = 0;
+	while (i < n)
 	{
-		ptr[j] = s2[i];
-		j++;
+		((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
+		i++;
 	}
-	ptr[j] = '\0';
-	return (ptr);
+	return (dst);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apavel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/10 19:07:34 by apavel            #+#    #+#             */
-/*   Updated: 2020/01/21 12:43:01 by apavel           ###   ########.fr       */
+/*   Created: 2020/01/10 16:51:14 by apavel            #+#    #+#             */
+/*   Updated: 2020/01/21 18:11:13 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,28 @@
 
 #include <stdio.h>
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+int	ft_atoi(const char *str)
 {
+	int		num;
 	size_t	i;
-	size_t	needle_len;
-	char	*hstck;
+	int		neg;
 
-	hstck = (char *)haystack;
-	if (!needle[0])
-		return ((char *)haystack);
-	needle_len = ft_strlen(needle);
+	num = 0;
 	i = 0;
-	while (i < len && haystack[i] != '\0')
+	neg = 1;
+	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' || str[i] == '\v'
+			|| str[i] == '\f' || str[i] == '\r')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		if (haystack[i] == needle[0])
-		{
-			if (!ft_strncmp(&haystack[i], needle, needle_len)
-				&& (i + needle_len) <= len)
-				return ((char *)&haystack[i]);
-		}
+		if (str[i] == '-')
+			neg *= -1;
 		i++;
 	}
-	return (NULL);
+	while (str[i] != '\0' && str[i] >= '0' && str[i] <= '9')
+	{
+		num = num * 10 + (str[i] - '0');
+		i++;
+	}
+	return (num * neg);
 }

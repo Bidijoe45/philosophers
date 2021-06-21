@@ -1,5 +1,5 @@
 #include "parser.h"
-#include "../../libft/libft.h"
+#include "../../lib/libft/libft.h"
 
 t_parser_error	check_argument(char *arg)
 {

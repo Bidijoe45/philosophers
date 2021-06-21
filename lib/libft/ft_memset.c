@@ -1,41 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apavel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/13 18:26:30 by apavel            #+#    #+#             */
-/*   Updated: 2020/01/16 11:29:29 by apavel           ###   ########.fr       */
+/*   Created: 2020/01/08 16:45:45 by apavel            #+#    #+#             */
+/*   Updated: 2020/01/08 18:26:04 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-#include <stdio.h>
-
-char	*ft_substr(const char *s, unsigned int start, size_t len)
+void	*ft_memset(void *b, int c, size_t len)
 {
 	size_t			i;
-	unsigned char	*u_s;
-	unsigned char	*str;
+	unsigned char	*z;
 
-	if (!s)
-		return (NULL);
-	if (*s == '\0')
-		return (ft_strdup(""));
-	str = malloc(sizeof(char) * (len + 1));
-	if (!str)
-		return (NULL);
-	if (ft_strlen(s) < start)
-		return (ft_strdup(""));
-	u_s = (unsigned char *)s;
+	z = b;
 	i = 0;
-	while (u_s[start + i] != '\0' && i < len)
+	while (i < len)
 	{
-		str[i] = u_s[start + i];
+		*z = c;
+		z++;
 		i++;
 	}
-	str[i] = '\0';
-	return ((char *)str);
+	return (b);
 }
