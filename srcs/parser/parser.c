@@ -1,34 +1,37 @@
 #include "parser.h"
+#include "../../libft/libft.h"
 
-e_parser_error	check_argument(char *arg)
+t_parser_error	check_argument(char *arg)
 {
 	int i;
 
 	i = 0;
 	while (arg[i])
-	{
+	{	
 		if (arg[i] == '-')
-			return (negative_args);
+			return (NEGATIVE_ARGS);
+		if (!ft_isdigit(arg[i]))
+			return (NO_DIGIT);
 		i++;
 	}
 
-	return (no_error);
+	return (NO_ERROR);
 }
 
-e_parser_error parse_args(int argc, char **argv)
+t_parser_error parse_args(int argc, char **argv)
 {
 	int i;
-	e_parser_error parser_err;
+	t_parser_error parser_err;
 	
 	if (argc < 5 || argc > 6)
-		return (n_of_args);
+		return (N_OF_ARGS);
 
-	i = 0;
-	parser_err = no_error;
+	i = 1;
+	parser_err = NO_ERROR;
 	while (argv[i])
 	{
 		parser_err = check_argument(argv[i]);
-		if (parser_err != no_error)
+		if (parser_err != NO_ERROR)
 			return (parser_err);
 		i++;
 	}

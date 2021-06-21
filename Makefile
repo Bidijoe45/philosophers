@@ -6,10 +6,15 @@ PHILO_ONE_OBJS = ${PHILO_ONE_SRCS:.c=.o}
 PHILO_TWO_OBJS = ${PHILO_TWO_SRCS:.c=.o}
 PHILO_THREE_OBJS = ${PHILO_THREE_SRCS:.c=.o}
 
-all: philo_one philo_two philo_three
+LIBFT=
 
-philo_one: $(PHILO_ONE_OBJS)
-	gcc $(PHILO_ONE_OBJS) -o philo_one
+all: philo_one
+
+libft:
+	make -C ./libft
+
+philo_one: libft $(PHILO_ONE_OBJS)
+	gcc $(PHILO_ONE_OBJS) -o philo_one -L./libft -lft
 
 philo_two: $(PHILO_TWO_OBJS)
 	gcc $(PHILO_TWO_OBJS) -o philo_two
