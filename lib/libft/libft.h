@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 11:36:19 by apavel            #+#    #+#             */
-/*   Updated: 2020/11/04 13:17:45 by apavel           ###   ########.fr       */
+/*   Updated: 2021/06/25 10:55:36 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ typedef struct	s_list
 	void			*content;
 	struct s_list	*next;
 }				t_list;
+
+typedef enum e_bool
+{
+	true = 1,
+	false = 0
+}			t_bool;
 
 size_t			ft_strlen(const char *str);
 size_t			ft_strlcpy(char *dst, const char *src, size_t dstsize);

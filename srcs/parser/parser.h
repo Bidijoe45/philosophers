@@ -3,14 +3,14 @@
 
 #include "../philo.h"
 
-typedef enum e_parser_error
+typedef enum e_args_error
 {
 	NO_ERROR,
 	N_OF_ARGS,
 	NEGATIVE_ARGS,
 	NO_DIGIT
-}			t_parser_error;
+}			t_args_error;
 
-t_parser_error parse_args(int argc, char **argv);
+t_args_error check_args(t_data *data, int argc, char **argv);
 
 #endif

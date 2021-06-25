@@ -1,4 +1,4 @@
-PHILO_ONE_SRCS = ./srcs/philo_one/philo_one.c ./srcs/parser/parser.c
+PHILO_ONE_SRCS = ./srcs/philo_one/philo_one.c ./srcs/parser/parser.c ./srcs/philo_one/eat.c
 PHILO_TWO_SRCS = 
 PHILO_THREE_SRCS = 
 
