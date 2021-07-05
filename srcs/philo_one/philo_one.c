@@ -28,16 +28,25 @@ void init_forks(t_fork *forks, int n_philos)
 	}
 }
 
-void init_philos(t_philo *philos, int n_philos, t_bool *all_alive)
+void init_philos(t_philo *philos, t_data *data, t_bool *all_alive, t_fork *forks)
 {
 	int i;
 
-	i = 0;
-	while (i < n_philos)
+	i = 1;
+	while (i <= data->n_philos)
 	{
-		philos[i].id = i + 1;
+		philos[i].id = i;
 		philos[i].state = EATING;
 		philos[i].all_alive = all_alive;
+		philos[i].forks = forks;
+		philos[i].left_fork_id = i;
+		if (i == 1)
+			philos[i].right_fork_id = data->n_philos;
+		else
+			philos[i].right_fork_id = i - 1;
+		philos[i].time_to_die = data->time_to_die;
+		philos[i].time_to_eat = data->time_to_eat;
+		philos[i].time_to_sleep = data->time_to_sleep;
 		i++;
 	}
 }
@@ -45,6 +54,8 @@ void init_philos(t_philo *philos, int n_philos, t_bool *all_alive)
 void *philo(void *philo_data)
 {
 	t_philo *philo;
+	struct timeval ctime;
+	int i;
 
 	philo = (t_philo *)philo_data;
 
@@ -53,6 +64,24 @@ void *philo(void *philo_data)
 
 	if (philo->state == EATING)
 	{
+		//coge el tenedor izquierdo
+		pthread_mutex_lock(&philo->forks[philo->left_fork_id]);
+
+		pthread_mutex_unlock(&philo->forks[philo->left_fork_id]);
+
+		//coge el tenedor derecho
+		pthread_mutex_lock(&philo->forks[philo->right_fork_id]);
+
+		pthread_mutex_unlock(&philo->forks[philo->right_fork_id]);
+
+		//el filosofo comienza a comer
+		i = 0;
+		while (i < philo->time_to_eat * 1000)
+		{
+			usleep(1000);
+			i += 1000;
+		}
+
 		
 	}
 
@@ -80,9 +109,7 @@ void join_philos(t_philo *philos, int n_philos)
 	i = 0;
 	while (i < n_philos)
 	{
-		printf("CACA1\n");
 		pthread_join(philos[i].thread, NULL);
-		printf("CACA2\n");
 		i++;
 	}
 }
@@ -94,7 +121,7 @@ void philo_one(t_data *data)
 	t_bool all_alive;
 
 	all_alive = true;
-	init_philos(philos, data->n_philos);	
+	init_philos(philos, data, &all_alive, forks);	
 	init_forks(forks, data->n_philos);
 	start_philos(philos, data->n_philos);
 	join_philos(philos, data->n_philos);
