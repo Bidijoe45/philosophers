@@ -6,7 +6,7 @@ PHILO_ONE_OBJS = ${PHILO_ONE_SRCS:.c=.o}
 PHILO_TWO_OBJS = ${PHILO_TWO_SRCS:.c=.o}
 PHILO_THREE_OBJS = ${PHILO_THREE_SRCS:.c=.o}
 
-LIBFT=./lib/libft
+LIBFT=./lib/libft #TODO: QUITAR ESTO!!!
 
 all: philo_one
 

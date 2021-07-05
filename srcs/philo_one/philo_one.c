@@ -16,7 +16,19 @@ void init_data(t_data *data)
     data->n_eat = -1;
 }
 
-void init_philos(t_philo *philos, int n_philos)
+void init_forks(t_fork *forks, int n_philos)
+{
+	int i;
+
+	i = 0;
+	while (i < n_philos)
+	{
+		pthread_mutex_init(&forks[i].mutex, NULL);
+		i++;
+	}
+}
+
+void init_philos(t_philo *philos, int n_philos, t_bool *all_alive)
 {
 	int i;
 
@@ -25,26 +37,52 @@ void init_philos(t_philo *philos, int n_philos)
 	{
 		philos[i].id = i + 1;
 		philos[i].state = EATING;
+		philos[i].all_alive = all_alive;
 		i++;
 	}
 }
 
-void *philo(t_philo *philo)
+void *philo(void *philo_data)
 {
-	
+	t_philo *philo;
 
-	return (NULL);
+	philo = (t_philo *)philo_data;
+
+	printf("Philo %d started\n", philo->id);
+
+
+	if (philo->state == EATING)
+	{
+		
+	}
+
+	printf("Philo %d ended\n", philo->id);
+
+	return (&philo->id);
 }
 
 void start_philos(t_philo *philos, int n_philos)
 {
 	int i;
-	pthread_t philos_t[n_philos];
 
 	i = 0;
 	while (i < n_philos)
 	{
-		pthread_create(&philos_t[i], NULL, &philo, &(philos[i]));
+		pthread_create(&(philos[i].thread), NULL, philo, &(philos[i]));
+		i++;
+	}
+}
+
+void join_philos(t_philo *philos, int n_philos)
+{
+	int  i;
+
+	i = 0;
+	while (i < n_philos)
+	{
+		printf("CACA1\n");
+		pthread_join(philos[i].thread, NULL);
+		printf("CACA2\n");
 		i++;
 	}
 }
@@ -53,9 +91,13 @@ void philo_one(t_data *data)
 {
 	t_fork forks[data->n_philos];
 	t_philo philos[data->n_philos];
+	t_bool all_alive;
 
-	init_philos(philos, data->n_philos);
+	all_alive = true;
+	init_philos(philos, data->n_philos);	
+	init_forks(forks, data->n_philos);
 	start_philos(philos, data->n_philos);
+	join_philos(philos, data->n_philos);
 }
 
 int main(int argc, char **argv)

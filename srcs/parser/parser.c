@@ -20,6 +20,7 @@ t_args_error	check_argument(char *arg)
 
 void	parse_arg(t_data *data, int n_arg, char *arg)
 {
+	//TODO: QUITAR LIBFR!!!
 	if (n_arg == 1)
 		data->n_philos = ft_atoi(arg);
 	else if (n_arg == 2)

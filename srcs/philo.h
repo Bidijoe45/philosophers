@@ -1,12 +1,14 @@
 #ifndef PHILO_H
 # define PHILO_H
 
+#include <pthread.h>
+
 #include "../lib/libft/libft.h"
 
 typedef struct s_fork
 {
 	int id;
-	t_bool in_use;
+	pthread_mutex_t mutex;
 } t_fork;
 
 typedef enum e_pstate
@@ -20,6 +22,8 @@ typedef struct s_philo
 {
 	int id;
 	t_pstate state;
+	pthread_t thread;
+	t_bool *all_alive;
 } t_philo;
 
 typedef struct  s_data
