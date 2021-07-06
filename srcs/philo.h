@@ -8,6 +8,7 @@
 typedef struct s_fork
 {
 	int id;
+	t_bool in_use;
 	pthread_mutex_t mutex;
 } t_fork;
 
