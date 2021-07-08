@@ -12,9 +12,10 @@ void	philo_wait_for_forks(t_philo *philo, struct timeval absolute_time)
 	while (philo->forks[philo->left_fork_id - 1].in_use || philo->forks[philo->right_fork_id - 1].in_use)
 	{
 		usleep(5000);
-		if ((time.tv_sec - waiting_time.tv_sec) >= philo->time_to_die)
+		if ((time.tv_sec - waiting_time.tv_sec) >= philo->time_to_die_ms)
 		{
 			printf("|%5ld|-----Philo %d DIES 1----\n", time.tv_sec - absolute_time.tv_sec, philo->id);
+			philo->all_alive = false;
 			exit(1);
 		}
 		gettimeofday(&time, NULL);
@@ -59,17 +60,18 @@ void	philo_eat(t_philo *philo, struct timeval absolute_time)
 	printf("|%5ld| Philo %d started eating\n", time.tv_sec - absolute_time.tv_sec, philo->id);
 	gettimeofday(&time, NULL);
 	gettimeofday(&eating_time, NULL);
-	while ((time.tv_sec - eating_time.tv_sec) <= philo->time_to_eat)
+	while ((time.tv_sec - eating_time.tv_sec) <= philo->time_to_eat_ms)
 	{
 		usleep(5000);
-		if ((time.tv_sec - eating_time.tv_sec) >= philo->time_to_die)
+		if ((time.tv_sec - eating_time.tv_sec) >= philo->time_to_die_ms)
 		{
 			printf("|%5ld|-----Philo %d DIES 2----\n", time.tv_sec - absolute_time.tv_sec, philo->id);
-			exit(1);
+			philo->all_alive = false;
 			pthread_mutex_unlock(&philo->forks[philo->left_fork_id - 1].mutex);
 			philo->forks[philo->left_fork_id - 1].in_use = false;
 			pthread_mutex_unlock(&philo->forks[philo->right_fork_id - 1].mutex);
 			philo->forks[philo->right_fork_id - 1].in_use = false;
+			exit(1);
 		}
 		gettimeofday(&time, NULL);
 	}

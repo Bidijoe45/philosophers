@@ -10,7 +10,7 @@ void philo_sleep(t_philo *philo, struct timeval absolute_time)
 	//el filosofo comienza a dormir
 	gettimeofday(&time, NULL);
 	gettimeofday(&sleep_time, NULL);
-	while ((time.tv_sec - sleep_time.tv_sec) <= philo->time_to_sleep)
+	while ((time.tv_sec - sleep_time.tv_sec) <= philo->time_to_sleep_ms)
 	{
 		usleep(5000);
 		gettimeofday(&time, NULL);

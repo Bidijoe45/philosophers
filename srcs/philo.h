@@ -23,9 +23,9 @@ typedef enum e_pstate
 typedef struct s_philo
 {
 	int id;
-	int time_to_die;
-	int time_to_eat;
-	int time_to_sleep;
+	int time_to_die_ms;
+	int time_to_eat_ms;
+	int time_to_sleep_ms;
 	int	left_fork_id;
 	int right_fork_id;
 	t_pstate state;
