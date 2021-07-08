@@ -1,34 +1,20 @@
-PHILO_ONE_SRCS = ./srcs/philo_one/philo_one.c ./srcs/parser/parser.c ./srcs/philo_one/eat.c
-PHILO_TWO_SRCS = 
-PHILO_THREE_SRCS = 
+PHILO_SRCS = ./srcs/philo/philo.c ./srcs/aux/ft_atoi.c ./srcs/aux/ft_isdigit.c ./srcs/parser/parser.c ./srcs/philo/eat.c ./srcs/philo/think.c ./srcs/philo/sleep.c
 
-PHILO_ONE_OBJS = ${PHILO_ONE_SRCS:.c=.o}
-PHILO_TWO_OBJS = ${PHILO_TWO_SRCS:.c=.o}
-PHILO_THREE_OBJS = ${PHILO_THREE_SRCS:.c=.o}
+PHILO_OBJS = ${PHILO_SRCS:.c=.o}
+NAME = philo
 
-LIBFT=./lib/libft #TODO: QUITAR ESTO!!!
+all: $(NAME)
 
-all: philo_one
-
-libft:
-	make -C $(LIBFT)
-
-philo_one: libft $(PHILO_ONE_OBJS)
-	gcc $(PHILO_ONE_OBJS) -o philo_one -L$(LIBFT) -lft
-
-philo_two: $(PHILO_TWO_OBJS)
-	gcc $(PHILO_TWO_OBJS) -o philo_two
-
-philo_three: $(PHILO_THREE_OBJS)
-	gcc $(PHILO_THREE_OBJS) -o philo_three
+philo: $(PHILO_OBJS)
+	gcc $(PHILO_OBJS) -o $(NAME)
 
 clean:
 	make clean -C ./lib/libft
-	rm -rf $(PHILO_ONE_OBJS) $(PHILO_TWO_OBJS) $(PHILO_THREE_OBJS)
+	rm -rf $(PHILO_OBJS)
 
 fclean: clean
 	make fclean -C ./lib/libft
-	rm -rf philo_one philo_two philo_three
+	rm -rf philo
 
 re: clean fclean
 	make re -C ./lib/libft

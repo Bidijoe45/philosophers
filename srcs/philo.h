@@ -2,8 +2,9 @@
 # define PHILO_H
 
 #include <pthread.h>
+#include <sys/time.h>
 
-#include "../lib/libft/libft.h"
+#include "bool.h"
 
 typedef struct s_fork
 {
@@ -31,7 +32,6 @@ typedef struct s_philo
 	pthread_t thread;
 	t_bool *all_alive;
 	t_fork *forks;
-
 } t_philo;
 
 typedef struct  s_data
@@ -43,6 +43,8 @@ typedef struct  s_data
 	int		n_eat;
 }				t_data;
 
-void	philo_eat();
+void	philo_eat(t_philo *philo, struct timeval absolute_time);
+void	philo_sleep(t_philo *philo, struct timeval absolute_time);
+void	philo_think(t_philo *philo);
 
 #endif
