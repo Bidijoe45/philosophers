@@ -1,4 +1,12 @@
-PHILO_SRCS = ./srcs/philo/philo.c ./srcs/aux/ft_atoi.c ./srcs/aux/ft_isdigit.c ./srcs/parser/parser.c ./srcs/philo/eat.c ./srcs/philo/think.c ./srcs/philo/sleep.c
+PHILO_SRCS =	./srcs/philo/philo.c \
+				./srcs/aux/ft_atoi.c \
+				./srcs/aux/ft_isdigit.c \
+				./srcs/aux/time_diff.c \
+				./srcs/parser/parser.c \
+				./srcs/philo/eat.c \
+				./srcs/philo/think.c \
+				./srcs/philo/sleep.c \
+				./srcs/philo/log.c
 
 PHILO_OBJS = ${PHILO_SRCS:.c=.o}
 NAME = philo

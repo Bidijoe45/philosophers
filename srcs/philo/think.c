@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include "../philo.h"
+#include "log.h"
 
-void philo_think(t_philo *philo, struct timeval *absolute_time)
+void	philo_think(t_philo *philo, struct timeval *ab_time)
 {
-	struct timeval time;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	printf("|%5ld| Philo %d thinks\n", time.tv_sec - absolute_time->tv_sec, philo->id);
+	philo_log(PHILO_THINK, philo->id, time, *ab_time);
 }

@@ -8,18 +8,18 @@
 #include "../parser/parser.h"
 #include "../bool.h"
 
-void init_data(t_data *data)
+void	init_data(t_data *data)
 {
-    data->n_philos = -1;
-    data->time_to_die = -1;
-    data->time_to_eat = -1;
-    data->time_to_sleep = -1;
-    data->ntimes_to_eat = -1;
+	data->n_philos = -1;
+	data->time_to_die = -1;
+	data->time_to_eat = -1;
+	data->time_to_sleep = -1;
+	data->ntimes_to_eat = -1;
 }
 
-void init_forks(t_fork *forks, int n_philos)
+void	init_forks(t_fork *forks, int n_philos)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < n_philos)
@@ -30,10 +30,11 @@ void init_forks(t_fork *forks, int n_philos)
 	}
 }
 
-void init_philos(t_philo *philos, t_data *data, t_bool *all_alive, t_fork *forks)
+void	init_philos(t_philo *philos, t_data *data,
+	t_bool *all_alive, t_fork *forks)
 {
-	int i;
-	int id;
+	int	i;
+	int	id;
 
 	i = 0;
 	while (i <= data->n_philos)
@@ -56,45 +57,44 @@ void init_philos(t_philo *philos, t_data *data, t_bool *all_alive, t_fork *forks
 	}
 }
 
-void *philo(void *philo_data)
+void	*philo(void *philo_data)
 {
-	t_philo	*philo;
-	struct timeval time;
-	struct timeval absolute_time;
-	
+	t_philo			*philo;
+	struct timeval	time;
+	struct timeval	ab_time;
+
 	philo = (t_philo *)philo_data;
-	gettimeofday(&absolute_time, NULL);
+	gettimeofday(&ab_time, NULL);
 	while (philo->all_alive)
 	{
 		if (philo->state == EATING)
 		{
-			philo_eat(philo, &absolute_time);
+			philo_eat(philo, &ab_time);
 			philo->state = SLEEPING;
 			philo->n_eat++;
 			if (philo->n_eat == philo->ntimes_to_eat)
 			{
 				gettimeofday(&time, NULL);
-				printf("|%5ld| Philo: %d has eaten %d times\n", (time.tv_sec - absolute_time.tv_sec),philo->id, philo->n_eat);
 				return (NULL);
 			}
 		}
 		else if (philo->state == SLEEPING)
 		{
-			philo_sleep(philo, &absolute_time);
+			philo_sleep(philo, &ab_time);
 			philo->state = THINKING;
 		}
 		else if (philo->state == THINKING)
 		{
-			philo_think(philo, &absolute_time);
+			philo_think(philo, &ab_time);
 			philo->state = EATING;
 		}
 	}
 	return (NULL);
 }
 
-void start_philos(t_philo *philos, int n_philos)
+void	start_philos(t_philo *philos, int n_philos)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < n_philos)
@@ -104,9 +104,9 @@ void start_philos(t_philo *philos, int n_philos)
 	}
 }
 
-void join_philos(t_philo *philos, int n_philos)
+void	join_philos(t_philo *philos, int n_philos)
 {
-	int  i;
+	int	i;
 
 	i = 0;
 	while (i < n_philos)
@@ -116,20 +116,20 @@ void join_philos(t_philo *philos, int n_philos)
 	}
 }
 
-void philo_one(t_data *data)
+void	philo_one(t_data *data)
 {
-	t_fork forks[data->n_philos];
-	t_philo philos[data->n_philos];
-	t_bool all_alive;
+	t_fork	forks[data->n_philos];
+	t_philo	philos[data->n_philos];
+	t_bool	all_alive;
 
 	all_alive = true;
-	init_philos(philos, data, &all_alive, forks);	
+	init_philos(philos, data, &all_alive, forks);
 	init_forks(forks, data->n_philos);
 	start_philos(philos, data->n_philos);
 	join_philos(philos, data->n_philos);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_data			*data;
 	t_args_error	args_err;
@@ -138,7 +138,6 @@ int main(int argc, char **argv)
 	if (!data)
 		exit(1);
 	init_data(data);
-
 	args_err = check_args(data, argc, argv);
 	if (args_err == N_OF_ARGS)
 		printf("ERROR: Invalid number of arguments\n");
@@ -148,9 +147,6 @@ int main(int argc, char **argv)
 		printf("ERROR: Arguments can be digits only\n");
 	else
 		philo_one(data);
-
 	free(data);
-	
 	return (0);
 }
-

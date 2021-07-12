@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-#include "../philo.h"
+# include "../philo.h"
 
 typedef enum e_args_error
 {
@@ -11,6 +11,6 @@ typedef enum e_args_error
 	NO_DIGIT
 }			t_args_error;
 
-t_args_error check_args(t_data *data, int argc, char **argv);
+t_args_error	check_args(t_data *data, int argc, char **argv);
 
 #endif

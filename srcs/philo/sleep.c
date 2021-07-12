@@ -2,24 +2,23 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "../philo.h"
+#include "../aux/aux.h"
+#include "log.h"
 
-void philo_sleep(t_philo *philo, struct timeval *absolute_time)
+void	philo_sleep(t_philo *philo, struct timeval *ab_time)
 {
-	struct timeval time;
-	struct timeval sleep_time;
-	int sleep_diff;
+	struct timeval	time;
+	struct timeval	sleep_time;
+	int				sleep_diff;
 
-	printf("|%5ld| Philo %d started sleeping\n", time.tv_sec - absolute_time->tv_sec, philo->id);
-	//el filosofo comienza a dormir
 	gettimeofday(&time, NULL);
+	philo_log(PHILO_SLEEP, philo->id, time, *ab_time);
 	gettimeofday(&sleep_time, NULL);
-	sleep_diff = ((time.tv_sec - sleep_time.tv_sec) * 1000000) + (time.tv_usec - sleep_time.tv_usec);
+	sleep_diff = time_diff_us(time, sleep_time);
 	while (sleep_diff <= philo->time_to_sleep_ms)
 	{
 		usleep(5000);
 		gettimeofday(&time, NULL);
-		sleep_diff = ((time.tv_sec - sleep_time.tv_sec) * 1000000) + (time.tv_usec - sleep_time.tv_usec);
+		sleep_diff = time_diff_us(time, sleep_time);
 	}
-
-	printf("|%5ld| Philo %d ends sleeping\n", time.tv_sec - absolute_time->tv_sec, philo->id);
 }

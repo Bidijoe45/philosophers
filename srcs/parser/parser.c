@@ -3,7 +3,7 @@
 
 t_args_error	check_argument(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arg[i])
@@ -14,13 +14,11 @@ t_args_error	check_argument(char *arg)
 			return (NO_DIGIT);
 		i++;
 	}
-
 	return (NO_ERROR);
 }
 
 void	parse_arg(t_data *data, int n_arg, char *arg)
 {
-	//TODO: QUITAR LIBFR!!!
 	if (n_arg == 1)
 		data->n_philos = ft_atoi(arg);
 	else if (n_arg == 2)
@@ -30,14 +28,14 @@ void	parse_arg(t_data *data, int n_arg, char *arg)
 	else if (n_arg == 4)
 		data->time_to_sleep = ft_atoi(arg);
 	else if (n_arg == 5)
-		data->n_eat = ft_atoi(arg);
+		data->ntimes_to_eat = ft_atoi(arg);
 }
 
-t_args_error check_args(t_data *data, int argc, char **argv)
+t_args_error	check_args(t_data *data, int argc, char **argv)
 {
-	int i;
-	t_args_error parser_err;
-	
+	int				i;
+	t_args_error	parser_err;
+
 	if (argc < 5 || argc > 6)
 		return (N_OF_ARGS);
 	i = 1;
