@@ -26,6 +26,8 @@ typedef struct s_philo
 	int time_to_die_ms;
 	int time_to_eat_ms;
 	int time_to_sleep_ms;
+	int ntimes_to_eat;
+	int n_eat;
 	int	left_fork_id;
 	int right_fork_id;
 	t_pstate state;
@@ -40,11 +42,11 @@ typedef struct  s_data
 	int		time_to_die;
 	int		time_to_eat;
 	int		time_to_sleep;
-	int		n_eat;
+	int		ntimes_to_eat;
 }				t_data;
 
-void	philo_eat(t_philo *philo, struct timeval absolute_time);
-void	philo_sleep(t_philo *philo, struct timeval absolute_time);
-void	philo_think(t_philo *philo);
+void	philo_eat(t_philo *philo, struct timeval *absolute_time);
+void	philo_sleep(t_philo *philo, struct timeval *absolute_time);
+void	philo_think(t_philo *philo, struct timeval *absolute_time);
 
 #endif

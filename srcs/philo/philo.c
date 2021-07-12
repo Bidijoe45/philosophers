@@ -6,6 +6,7 @@
 
 #include "../philo.h"
 #include "../parser/parser.h"
+#include "../bool.h"
 
 void init_data(t_data *data)
 {
@@ -13,7 +14,7 @@ void init_data(t_data *data)
     data->time_to_die = -1;
     data->time_to_eat = -1;
     data->time_to_sleep = -1;
-    data->n_eat = -1;
+    data->ntimes_to_eat = -1;
 }
 
 void init_forks(t_fork *forks, int n_philos)
@@ -46,9 +47,11 @@ void init_philos(t_philo *philos, t_data *data, t_bool *all_alive, t_fork *forks
 			philos[i].right_fork_id = data->n_philos;
 		else
 			philos[i].right_fork_id = i;
-		philos[i].time_to_die = data->time_to_die;
-		philos[i].time_to_eat = data->time_to_eat;
-		philos[i].time_to_sleep = data->time_to_sleep;
+		philos[i].time_to_die_ms = data->time_to_die;
+		philos[i].time_to_eat_ms = data->time_to_eat;
+		philos[i].time_to_sleep_ms = data->time_to_sleep;
+		philos[i].ntimes_to_eat = data->ntimes_to_eat;
+		philos[i].n_eat = 0;
 		i++;
 	}
 }
@@ -60,21 +63,29 @@ void *philo(void *philo_data)
 	struct timeval absolute_time;
 	
 	philo = (t_philo *)philo_data;
+	gettimeofday(&absolute_time, NULL);
 	while (philo->all_alive)
 	{
 		if (philo->state == EATING)
 		{
-			philo_eat(philo, absolute_time);
+			philo_eat(philo, &absolute_time);
 			philo->state = SLEEPING;
+			philo->n_eat++;
+			if (philo->n_eat == philo->ntimes_to_eat)
+			{
+				gettimeofday(&time, NULL);
+				printf("|%5ld| Philo: %d has eaten %d times\n", (time.tv_sec - absolute_time.tv_sec),philo->id, philo->n_eat);
+				return (NULL);
+			}
 		}
 		else if (philo->state == SLEEPING)
 		{
-			philo_sleep(philo, absolute_time);
+			philo_sleep(philo, &absolute_time);
 			philo->state = THINKING;
 		}
 		else if (philo->state == THINKING)
 		{
-			philo_think(philo);
+			philo_think(philo, &absolute_time);
 			philo->state = EATING;
 		}
 	}

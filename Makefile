@@ -9,13 +9,10 @@ philo: $(PHILO_OBJS)
 	gcc $(PHILO_OBJS) -o $(NAME)
 
 clean:
-	make clean -C ./lib/libft
 	rm -rf $(PHILO_OBJS)
 
 fclean: clean
-	make fclean -C ./lib/libft
 	rm -rf philo
 
 re: clean fclean
-	make re -C ./lib/libft
 	all
