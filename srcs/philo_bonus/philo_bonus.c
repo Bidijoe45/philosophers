@@ -116,7 +116,7 @@ void	join_philos(t_philo *philos, int n_philos)
 	}
 }
 
-void	philo(t_data *data)
+void	philo_bonus(t_data *data)
 {
 	t_fork	forks[data->n_philos];
 	t_philo	philos[data->n_philos];
@@ -146,7 +146,7 @@ int	main(int argc, char **argv)
 	else if (args_err == NO_DIGIT)
 		printf("ERROR: Arguments can be digits only\n");
 	else
-		philo(data);
+		philo_bonus(data);
 	free(data);
 	return (0);
 }

@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include "../philo.h"
 #include "../aux/aux.h"
-#include "log.h"
+#include "../philo/log.h"
 
 void	philo_sleep(t_philo *philo, struct timeval *ab_time)
 {
