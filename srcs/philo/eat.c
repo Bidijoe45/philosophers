@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "../bool.h"
-#include "../philo.h"
+#include "philo.h"
 #include "../aux/aux.h"
 #include "log.h"
 
-void	philo_wait_for_forks(t_philo *philo, struct timeval *ab_time)
+static void	philo_wait_for_forks(t_philo *philo, struct timeval *ab_time)
 {
 	struct timeval	time;
 	struct timeval	waiting_time;
@@ -30,7 +30,7 @@ void	philo_wait_for_forks(t_philo *philo, struct timeval *ab_time)
 	}
 }
 
-void	philo_get_forks(t_philo *philo, struct timeval *ab_time)
+static void	philo_get_forks(t_philo *philo, struct timeval *ab_time)
 {
 	struct timeval	time;
 
@@ -42,7 +42,7 @@ void	philo_get_forks(t_philo *philo, struct timeval *ab_time)
 	gettimeofday(&time, NULL);
 }
 
-void	philo_release_forks(t_philo *philo)
+static void	philo_release_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(&philo->forks[philo->left_fork_id - 1].mutex);
 	philo->forks[philo->left_fork_id - 1].in_use = false;

@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "../philo.h"
+# include "../data.h"
 
 typedef enum e_args_error
 {

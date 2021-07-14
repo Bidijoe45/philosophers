@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <unistd.h>
 
-#include "../philo.h"
+#include "philo_bonus.h"
 #include "../parser/parser.h"
 #include "../bool.h"
 
@@ -17,37 +18,18 @@ void	init_data(t_data *data)
 	data->ntimes_to_eat = -1;
 }
 
-void	init_forks(t_fork *forks, int n_philos)
-{
-	int	i;
-
-	i = 0;
-	while (i < n_philos)
-	{
-		forks[i].in_use = false;
-		pthread_mutex_init(&forks[i].mutex, NULL);
-		i++;
-	}
-}
-
-void	init_philos(t_philo *philos, t_data *data,
-	t_bool *all_alive, t_fork *forks)
+void	init_philos(t_philo *philos, t_data *data, t_bool *all_alive, t_forks *forks)
 {
 	int	i;
 	int	id;
 
 	i = 0;
-	while (i <= data->n_philos)
+	while (i < data->n_philos)
 	{
 		philos[i].id = (i + 1);
 		philos[i].state = EATING;
 		philos[i].all_alive = all_alive;
 		philos[i].forks = forks;
-		philos[i].left_fork_id = (i + 1);
-		if ((i + 1) == 1)
-			philos[i].right_fork_id = data->n_philos;
-		else
-			philos[i].right_fork_id = i;
 		philos[i].time_to_die_ms = data->time_to_die;
 		philos[i].time_to_eat_ms = data->time_to_eat;
 		philos[i].time_to_sleep_ms = data->time_to_sleep;
@@ -57,26 +39,23 @@ void	init_philos(t_philo *philos, t_data *data,
 	}
 }
 
-void	*philo(void *philo_data)
+void	*philo_process(t_philo *philo)
 {
-	t_philo			*philo;
 	struct timeval	time;
 	struct timeval	ab_time;
 
-	philo = (t_philo *)philo_data;
-	gettimeofday(&ab_time, NULL);
-	while (philo->all_alive)
+	while (*philo->all_alive)
 	{
 		if (philo->state == EATING)
 		{
 			philo_eat(philo, &ab_time);
-			philo->state = SLEEPING;
 			philo->n_eat++;
 			if (philo->n_eat == philo->ntimes_to_eat)
 			{
 				gettimeofday(&time, NULL);
 				return (NULL);
 			}
+			philo->state = SLEEPING;
 		}
 		else if (philo->state == SLEEPING)
 		{
@@ -89,44 +68,44 @@ void	*philo(void *philo_data)
 			philo->state = EATING;
 		}
 	}
+
 	return (NULL);
 }
 
 void	start_philos(t_philo *philos, int n_philos)
 {
 	int	i;
+	pid_t pid;
 
 	i = 0;
 	while (i < n_philos)
 	{
-		pthread_create(&(philos[i].thread), NULL, philo, &(philos[i]));
+		pid = fork();
+		if (pid == 0)
+		{
+			philo_process(&philos[i]);
+			exit(1);
+		}
 		i++;
 	}
 }
 
-void	join_philos(t_philo *philos, int n_philos)
+void	init_forks(t_forks *forks, int n_philos)
 {
-	int	i;
-
-	i = 0;
-	while (i < n_philos)
-	{
-		pthread_join(philos[i].thread, NULL);
-		i++;
-	}
+	forks->n_forks = n_philos;
+	forks->sem_forks = sem_open("sem_forks", O_CREAT);
 }
 
 void	philo_bonus(t_data *data)
 {
-	t_fork	forks[data->n_philos];
 	t_philo	philos[data->n_philos];
 	t_bool	all_alive;
+	t_forks forks;
 
 	all_alive = true;
-	init_philos(philos, data, &all_alive, forks);
-	init_forks(forks, data->n_philos);
+	init_philos(philos, data, &all_alive, &forks);
+	init_forks(&forks, data->n_philos);
 	start_philos(philos, data->n_philos);
-	join_philos(philos, data->n_philos);
 }
 
 int	main(int argc, char **argv)

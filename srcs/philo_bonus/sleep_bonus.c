@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "../philo.h"
+#include "philo_bonus.h"
 #include "../aux/aux.h"
 #include "../philo/log.h"
 

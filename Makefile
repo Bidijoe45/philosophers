@@ -24,6 +24,8 @@ PHILO_BONUS_OBJS = ${PHILO_SRCS_BONUS:.c=.o}
 NAME = philo
 BONUS_NAME = philo_bonus
 
+SANITIZE = -g3 -fsanitize=address
+
 all: $(NAME)
 
 bonus: $(BONUS_NAME)
@@ -32,7 +34,7 @@ philo: $(PHILO_OBJS)
 	gcc $(PHILO_OBJS) -o $(NAME)
 	
 philo_bonus: $(PHILO_BONUS_OBJS)
-	gcc $(PHILO_BONUS_OBJS) -o $(BONUS_NAME)
+	gcc $(PHILO_BONUS_OBJS) -o $(BONUS_NAME) $(SANITIZE)
 
 clean:
 	rm -rf $(PHILO_OBJS)

@@ -4,9 +4,10 @@
 #include <pthread.h>
 #include <sys/time.h>
 
-#include "../philo.h"
+#include "philo.h"
 #include "../parser/parser.h"
 #include "../bool.h"
+#include "../data.h"
 
 void	init_data(t_data *data)
 {
@@ -37,7 +38,7 @@ void	init_philos(t_philo *philos, t_data *data,
 	int	id;
 
 	i = 0;
-	while (i <= data->n_philos)
+	while (i < data->n_philos)
 	{
 		philos[i].id = (i + 1);
 		philos[i].state = EATING;
@@ -57,7 +58,7 @@ void	init_philos(t_philo *philos, t_data *data,
 	}
 }
 
-void	*philo(void *philo_data)
+void	*philo_thread(void *philo_data)
 {
 	t_philo			*philo;
 	struct timeval	time;
@@ -65,7 +66,7 @@ void	*philo(void *philo_data)
 
 	philo = (t_philo *)philo_data;
 	gettimeofday(&ab_time, NULL);
-	while (philo->all_alive)
+	while (*philo->all_alive)
 	{
 		if (philo->state == EATING)
 		{
@@ -99,7 +100,7 @@ void	start_philos(t_philo *philos, int n_philos)
 	i = 0;
 	while (i < n_philos)
 	{
-		pthread_create(&(philos[i].thread), NULL, philo, &(philos[i]));
+		pthread_create(&(philos[i].thread), NULL, philo_thread, &(philos[i]));
 		i++;
 	}
 }
