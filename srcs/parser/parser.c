@@ -10,7 +10,7 @@ t_args_error	check_argument(char *arg)
 	{	
 		if (arg[i] == '-')
 			return (NEGATIVE_ARGS);
-		if (!ft_isdigit(arg[i]))
+		else if (!ft_isdigit(arg[i]))
 			return (NO_DIGIT);
 		i++;
 	}

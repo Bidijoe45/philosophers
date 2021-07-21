@@ -4,7 +4,6 @@
 #include <pthread.h>
 #include <sys/time.h>
 #include <unistd.h>
-
 #include "philo.h"
 #include "../parser/parser.h"
 #include "../bool.h"
@@ -33,7 +32,7 @@ void	init_forks(t_fork *forks, int n_philos)
 }
 
 void	init_philos(t_philo *philos, t_data *data,
-	t_bool *all_alive, t_fork *forks)
+	t_bool *all_alive, t_fork *forks, pthread_mutex_t *all_alive_mtx)
 {
 	int	i;
 	int	id;
@@ -44,6 +43,7 @@ void	init_philos(t_philo *philos, t_data *data,
 		philos[i].id = (i + 1);
 		philos[i].state = EATING;
 		philos[i].all_alive = all_alive;
+		philos[i].all_alive_mtx = all_alive_mtx;
 		philos[i].forks = forks;
 		philos[i].left_fork_id = (i + 1);
 		if ((i + 1) == 1)
@@ -57,6 +57,11 @@ void	init_philos(t_philo *philos, t_data *data,
 		philos[i].n_eat = 0;
 		i++;
 	}
+}
+
+void philo_set_all_alive(t_philo *philo, t_bool value)
+{
+	*philo->all_alive = value;
 }
 
 void	*philo_thread(void *philo_data)
@@ -123,9 +128,11 @@ void	philo(t_data *data)
 	t_fork	forks[data->n_philos];
 	t_philo	philos[data->n_philos];
 	t_bool	all_alive;
+	pthread_mutex_t all_alive_mtx;
 
 	all_alive = true;
-	init_philos(philos, data, &all_alive, forks);
+	pthread_mutex_init(&all_alive_mtx, NULL);
+	init_philos(philos, data, &all_alive, forks, &all_alive_mtx);
 	init_forks(forks, data->n_philos);
 	start_philos(philos, data->n_philos);
 	join_philos(philos, data->n_philos);
@@ -144,19 +151,16 @@ int	main(int argc, char **argv)
 	if (args_err == N_OF_ARGS)
 	{
 		printf("ERROR: Invalid number of arguments\n");
-		write(2, "mal\n", 4);
 		exit(1);
 	}
 	else if (args_err == NEGATIVE_ARGS)
 	{
 		printf("ERROR: Arguments cannot be negative\n");
-		write(2, "mal\n", 4);
 		exit(1);
 	}
 	else if (args_err == NO_DIGIT)
 	{
 		printf("ERROR: Arguments can be digits only\n");
-		write(2, "mal\n", 4);
 		exit(1);
 	}
 	else

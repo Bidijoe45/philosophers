@@ -6,6 +6,20 @@
 #include "../aux/aux.h"
 #include "log.h"
 
+static void	philo_get_forks(t_philo *philo, struct timeval *ab_time)
+{
+	struct timeval	time;
+
+	philo->forks[philo->left_fork_id - 1].in_use = true;
+	pthread_mutex_lock(&philo->forks[philo->left_fork_id - 1].mutex);
+	gettimeofday(&time, NULL);
+	philo_log(PHILO_FORK, philo, time, *ab_time);
+	philo->forks[philo->right_fork_id - 1].in_use = true;
+	pthread_mutex_lock(&philo->forks[philo->right_fork_id - 1].mutex);
+	gettimeofday(&time, NULL);
+	philo_log(PHILO_FORK, philo, time, *ab_time);
+}
+
 static void	philo_wait_for_forks(t_philo *philo, struct timeval *ab_time)
 {
 	struct timeval	time;
@@ -17,29 +31,18 @@ static void	philo_wait_for_forks(t_philo *philo, struct timeval *ab_time)
 	while (philo->forks[philo->left_fork_id - 1].in_use
 		|| philo->forks[philo->right_fork_id - 1].in_use)
 	{
-		//usleep(1000);
+		usleep(SLEEP_TIME);
 		die_diff = time_diff_us(time, waiting_time);
-		if (die_diff >= philo->time_to_die_ms * 1000)
+		if (die_diff >= (philo->time_to_die_ms * 1000))
 		{
-			philo_log(PHILO_DEATH, philo->id, time, *ab_time);
-			*philo->all_alive = false;
+			pthread_mutex_lock(philo->all_alive_mtx);
+			philo_log(PHILO_DEATH, philo, time, *ab_time);
+			philo_set_all_alive(philo, false);
+			pthread_mutex_unlock(philo->all_alive_mtx);
 			exit(1);
 		}
 		gettimeofday(&time, NULL);
-		die_diff = time_diff_us(time, waiting_time);
 	}
-}
-
-static void	philo_get_forks(t_philo *philo, struct timeval *ab_time)
-{
-	struct timeval	time;
-
-	pthread_mutex_lock(&philo->forks[philo->left_fork_id - 1].mutex);
-	philo->forks[philo->left_fork_id - 1].in_use = true;
-	gettimeofday(&time, NULL);
-	pthread_mutex_lock(&philo->forks[philo->right_fork_id - 1].mutex);
-	philo->forks[philo->right_fork_id - 1].in_use = true;
-	gettimeofday(&time, NULL);
 }
 
 static void	philo_release_forks(t_philo *philo)
@@ -60,21 +63,20 @@ void	philo_eat(t_philo *philo, struct timeval *ab_time)
 	philo_wait_for_forks(philo, ab_time);
 	philo_get_forks(philo, ab_time);
 	gettimeofday(&time, NULL);
-	philo_log(PHILO_EAT, philo->id, time, *ab_time);
+	philo_log(PHILO_EAT, philo, time, *ab_time);
 	gettimeofday(&eating_time, NULL);
 	eat_diff = time_diff_us(time, eating_time);
-	while (eat_diff <= philo->time_to_eat_ms * 1000)
+	while (eat_diff <= (philo->time_to_eat_ms * 1000))
 	{
-		//usleep(1000);
+		usleep(SLEEP_TIME);
 		die_diff = time_diff_us(time, eating_time);
-		if (die_diff >= philo->time_to_die_ms * 1000)
+		if (die_diff >= (philo->time_to_die_ms * 1000))
 		{
-			philo_log(PHILO_DEATH, philo->id, time, *ab_time);
-			*philo->all_alive = false;
-			pthread_mutex_unlock(&philo->forks[philo->left_fork_id - 1].mutex);
-			philo->forks[philo->left_fork_id - 1].in_use = false;
-			pthread_mutex_unlock(&philo->forks[philo->right_fork_id - 1].mutex);
-			philo->forks[philo->right_fork_id - 1].in_use = false;
+			pthread_mutex_lock(philo->all_alive_mtx);
+			philo_log(PHILO_DEATH, philo, time, *ab_time);
+			philo_set_all_alive(philo, false);
+			pthread_mutex_unlock(philo->all_alive_mtx);
+			philo_release_forks(philo);
 			exit(1);
 		}
 		gettimeofday(&time, NULL);
