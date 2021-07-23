@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include "log.h"
-#include "philo.h"
+#include "../philo/philo.h"
 #include "../aux/aux.h"
 
 void	philo_log(t_log_type type, t_philo *philo,

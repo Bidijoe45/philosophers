@@ -1,6 +1,15 @@
 #include "parser.h"
 #include "../aux/aux.h"
 
+void init_data(t_data *data)
+{
+	data->n_philos = -1;
+	data->time_to_die = -1;
+	data->time_to_eat = -1;
+	data->time_to_sleep = -1;
+	data->ntimes_to_eat = -1;
+}
+
 t_args_error	check_argument(char *arg)
 {
 	int	i;
@@ -36,6 +45,7 @@ t_args_error	check_args(t_data *data, int argc, char **argv)
 	int				i;
 	t_args_error	parser_err;
 
+	init_data(data);
 	if (argc < 5 || argc > 6)
 		return (N_OF_ARGS);
 	i = 1;

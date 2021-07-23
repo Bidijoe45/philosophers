@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include "philo.h"
 #include "../aux/aux.h"
-#include "log.h"
+#include "../log/log.h"
 
 void	philo_sleep(t_philo *philo, struct timeval *ab_time)
 {
@@ -12,13 +12,19 @@ void	philo_sleep(t_philo *philo, struct timeval *ab_time)
 	int				sleep_diff;
 
 	gettimeofday(&time, NULL);
-	philo_log(PHILO_SLEEP, philo->id, time, *ab_time);
-	
+	pthread_mutex_lock(philo->all_alive_mtx);
+	philo_log(PHILO_SLEEP, philo, time, *ab_time);
+	pthread_mutex_unlock(philo->all_alive_mtx);
+
 	gettimeofday(&sleep_time, NULL);
 	sleep_diff = time_diff_us(time, sleep_time);
-	while (sleep_diff <= philo->time_to_sleep_ms)
+	while (sleep_diff <= philo->time_to_sleep_ms * 1000)
 	{
-		usleep(5000);
+		usleep(SLEEP_TIME);
+		if (sleep_diff >= philo->time_to_die_ms * 1000)
+		{
+			philo_die_waiting(philo, time, *ab_time);
+		}
 		gettimeofday(&time, NULL);
 		sleep_diff = time_diff_us(time, sleep_time);
 	}

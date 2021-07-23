@@ -1,12 +1,16 @@
-PHILO_SRCS =	./srcs/philo_one/philo.c \
+PHILO_SRCS =	./srcs/philo/philo.c \
 				./srcs/aux/ft_atoi.c \
 				./srcs/aux/ft_isdigit.c \
 				./srcs/aux/time_diff.c \
 				./srcs/parser/parser.c \
-				./srcs/philo_one/eat.c \
-				./srcs/philo_one/think.c \
-				./srcs/philo_one/sleep.c \
-				./srcs/philo_one/log.c
+				./srcs/philo/eat.c \
+				./srcs/philo/think.c \
+				./srcs/philo/sleep.c \
+				./srcs/log/log.c	\
+				./srcs/philo/thread.c \
+				./srcs/philo/die.c \
+				./srcs/philo/philo_init.c	
+
 
 PHILO_SRCS_BONUS =	./srcs/philo_bonus/philo_bonus.c \
 					./srcs/aux/ft_atoi.c \
@@ -21,7 +25,7 @@ PHILO_SRCS_BONUS =	./srcs/philo_bonus/philo_bonus.c \
 PHILO_OBJS = ${PHILO_SRCS:.c=.o}
 PHILO_BONUS_OBJS = ${PHILO_SRCS_BONUS:.c=.o}
 
-NAME = philo_one
+NAME = philo
 BONUS_NAME = philo_bonus
 
 SANITIZE = -g3 -fsanitize=address
@@ -30,7 +34,7 @@ all: $(NAME)
 
 bonus: $(BONUS_NAME)
 
-philo_one: $(PHILO_OBJS)
+philo: $(PHILO_OBJS)
 	gcc $(PHILO_OBJS) -o $(NAME)
 	
 philo_bonus: $(PHILO_BONUS_OBJS)
