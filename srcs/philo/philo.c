@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
-#include <pthread.h>
 #include <sys/time.h>
 #include <unistd.h>
 #include "philo.h"
@@ -9,6 +8,18 @@
 #include "../bool.h"
 #include "../data.h"
 #include "../log/log.h"
+
+void clear_forks_mutexes(t_fork *forks, int n_philos)
+{
+	int i;
+
+	i = 0;
+	while (i < n_philos)
+	{
+		pthread_mutex_destroy(&forks[i].mutex);
+		i++;
+	}
+}
 
 void philo(t_data *data)
 {
@@ -24,6 +35,8 @@ void philo(t_data *data)
 	init_forks(forks, data->n_philos);
 	start_philos(philos, data->n_philos);
 	join_philos(philos, data->n_philos);
+	clear_forks_mutexes(forks, data->n_philos);
+	pthread_mutex_destroy(&all_alive_mtx);
 }
 
 int main(int argc, char **argv)
