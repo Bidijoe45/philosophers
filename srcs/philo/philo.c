@@ -23,16 +23,18 @@ void clear_forks_mutexes(t_fork *forks, int n_philos)
 
 void philo(t_data *data)
 {
-	t_fork forks[data->n_philos];
-	t_philo philos[data->n_philos];
+	t_fork *forks;
+	t_philo *philos;
 	t_bool all_alive;
 	pthread_mutex_t all_alive_mtx;
-
+	
 	all_alive = true;
+	forks = malloc(sizeof(t_fork) * data->n_philos);
+	init_forks(forks, data->n_philos);
+	philos = malloc(sizeof(t_philo) * data->n_philos);
 	init_philos(philos, data, forks);
 	pthread_mutex_init(&all_alive_mtx, NULL);
 	init_all_alive(philos, data->n_philos, &all_alive, &all_alive_mtx);
-	init_forks(forks, data->n_philos);
 	start_philos(philos, data->n_philos);
 	join_philos(philos, data->n_philos);
 	clear_forks_mutexes(forks, data->n_philos);
