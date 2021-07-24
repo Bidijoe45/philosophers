@@ -35,7 +35,7 @@ all: $(NAME)
 bonus: $(BONUS_NAME)
 
 philo: $(PHILO_OBJS)
-	gcc $(PHILO_OBJS) -o $(NAME)
+	gcc $(PHILO_OBJS) -o $(NAME) -pthread
 	
 philo_bonus: $(PHILO_BONUS_OBJS)
 	gcc $(PHILO_BONUS_OBJS) -o $(BONUS_NAME) $(SANITIZE)

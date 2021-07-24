@@ -9,7 +9,6 @@
 #include "../bool.h"
 #include "../data.h"
 #include "../log/log.h"
-#include "thread.h"
 
 void philo(t_data *data)
 {
