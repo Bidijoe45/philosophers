@@ -32,7 +32,7 @@ void	philo_release_forks(t_philo *philo)
 	philo->forks[philo->right_fork_id - 1].in_use = false;
 }
 
-static void	philo_wait_for_forks(t_philo *philo, struct timeval *ab_time)
+static int	philo_wait_for_forks(t_philo *philo, struct timeval *ab_time)
 {
 	struct timeval	time;
 	struct timeval	waiting_time;
@@ -48,20 +48,24 @@ static void	philo_wait_for_forks(t_philo *philo, struct timeval *ab_time)
 		if (die_diff >= (philo->time_to_die_ms * 1000))
 		{
 			philo_die_waiting(philo, time, *ab_time);
-			printf("all_alive: %d\n", *philo->all_alive);
+			return (1);
 		}
 		gettimeofday(&time, NULL);
 	}
+	return (0);
 }
 
-void	philo_eat(t_philo *philo, struct timeval *ab_time)
+int	philo_eat(t_philo *philo, struct timeval *ab_time)
 {
 	struct timeval	time;
 	struct timeval	eating_time;
 	int				die_diff;
 	int				eat_diff;
+	int				dead;
 
-	philo_wait_for_forks(philo, ab_time);
+	dead = philo_wait_for_forks(philo, ab_time);
+	if (dead)
+		return (1);
 	philo_get_forks(philo, ab_time);
 	gettimeofday(&time, NULL);
 	pthread_mutex_lock(philo->all_alive_mtx);
@@ -76,9 +80,16 @@ void	philo_eat(t_philo *philo, struct timeval *ab_time)
 		if (die_diff >= (philo->time_to_die_ms * 1000))
 		{
 			philo_die_eating(philo, time, *ab_time);
+			return (1);
 		}
 		gettimeofday(&time, NULL);
 		eat_diff = time_diff_us(time, eating_time);
 	}
 	philo_release_forks(philo);
+	return (0);
+}
+
+int philo_try_eat(t_philo *philo, struct timeval *ab_time)
+{
+	//TODO: poner aqui la logica de la muerte del filosofo cuando come	
 }

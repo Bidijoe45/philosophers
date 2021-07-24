@@ -39,9 +39,9 @@ typedef struct s_philo
 	pthread_mutex_t	*all_alive_mtx;
 }	t_philo;
 
-void	philo_eat(t_philo *philo, struct timeval *ab_time);
+int		philo_eat(t_philo *philo, struct timeval *ab_time);
 void	philo_release_forks(t_philo *philo);
-void	philo_sleep(t_philo *philo, struct timeval *ab_time);
+int		philo_sleep(t_philo *philo, struct timeval *ab_time);
 void	philo_think(t_philo *philo, struct timeval *ab_time);
 void	philo_die_eating(t_philo *philo, struct timeval time, struct timeval ab_time);
 void	philo_die_waiting(t_philo *philo, struct timeval time, struct timeval ab_time);
