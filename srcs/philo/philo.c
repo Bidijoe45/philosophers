@@ -8,6 +8,7 @@
 #include "../bool.h"
 #include "../data.h"
 #include "../log/log.h"
+#include "../aux/aux.h"
 
 void clear_forks_mutexes(t_fork *forks, int n_philos)
 {
@@ -19,6 +20,45 @@ void clear_forks_mutexes(t_fork *forks, int n_philos)
 		pthread_mutex_destroy(&forks[i].mutex);
 		i++;
 	}
+}
+
+void check_philos(t_philo *philos, int n_philos, t_bool *all_alive)
+{
+	struct timeval	time;
+	long int		time_diff;
+	int				i;
+
+	//esperar a que todos los filosofos esten ready
+	while (i < n_philos)
+	{
+		if (philos[i].state == UNINITIALIZED)
+			continue;
+		i++;
+	}
+
+	gettimeofday(&time, NULL);
+	i = 0;
+	while (*all_alive)
+	{
+		//TODO: comprobar si el filosofo se ha muerto
+		time_diff = time_diff_us(time, philos[i].eat_start);
+		
+		printf("checking!\n");
+
+		if (time_diff >= (philos[i].time_to_die_ms * 1000))
+		{
+			printf("PHILO %d died\n", philos[i].id);
+			*all_alive = false;
+			break ;
+		}
+
+		gettimeofday(&time, NULL);
+		if (i == (n_philos - 1))
+			i = 0;
+		else
+			i++;
+	}
+
 }
 
 void philo(t_data *data)
@@ -36,6 +76,7 @@ void philo(t_data *data)
 	pthread_mutex_init(&all_alive_mtx, NULL);
 	init_all_alive(philos, data->n_philos, &all_alive, &all_alive_mtx);
 	start_philos(philos, data->n_philos);
+	check_philos(philos, data->n_philos, &all_alive);
 	join_philos(philos, data->n_philos);
 	clear_forks_mutexes(forks, data->n_philos);
 	pthread_mutex_destroy(&all_alive_mtx);

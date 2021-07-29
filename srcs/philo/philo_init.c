@@ -22,7 +22,7 @@ void	init_philos(t_philo *philos, t_data *data, t_fork *forks)
 	while (i < data->n_philos)
 	{
 		philos[i].id = (i + 1);
-		philos[i].state = EATING;
+		philos[i].state = UNINITIALIZED;
 		philos[i].forks = forks;
 		philos[i].left_fork_id = (i + 1);
 		if ((i + 1) == 1)

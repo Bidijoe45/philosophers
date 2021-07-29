@@ -1,5 +1,6 @@
 #include <pthread.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "philo.h"
 
 void	start_philos(t_philo *philos, int n_philos)
@@ -10,8 +11,18 @@ void	start_philos(t_philo *philos, int n_philos)
 	while (i < n_philos)
 	{
 		pthread_create(&(philos[i].thread), NULL, philo_thread, &(philos[i]));
-		i++;
+		i += 2;
 	}
+
+	usleep(1000);
+
+	i = 1;
+	while (i < n_philos)
+	{
+		pthread_create(&(philos[i].thread), NULL, philo_thread, &(philos[i]));
+		i += 2;
+	}
+
 }
 
 void	join_philos(t_philo *philos, int n_philos)
@@ -35,6 +46,7 @@ void	*philo_thread(void *philo_data)
 
 	philo = (t_philo *)philo_data;
 	gettimeofday(&ab_time, NULL);
+	philo->state = EATING;
 	while (*philo->all_alive)
 	{
 		if (philo->state == EATING)

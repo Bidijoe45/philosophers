@@ -20,11 +20,6 @@ int	philo_sleep(t_philo *philo, struct timeval *ab_time)
 	while (sleep_diff <= philo->time_to_sleep_ms * 1000)
 	{
 		usleep(SLEEP_TIME);
-		if (sleep_diff >= philo->time_to_die_ms * 1000)
-		{
-			philo_die_waiting(philo, time, *ab_time);
-			return (1);
-		}
 		gettimeofday(&time, NULL);
 		sleep_diff = time_diff_us(time, sleep_time);
 	}

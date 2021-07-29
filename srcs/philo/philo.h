@@ -17,6 +17,7 @@ typedef struct s_fork
 
 typedef enum e_pstate
 {
+	UNINITIALIZED,
 	EATING,
 	SLEEPING,
 	THINKING
@@ -37,6 +38,7 @@ typedef struct s_philo
 	t_fork			*forks;
 	t_bool			*all_alive;
 	pthread_mutex_t	*all_alive_mtx;
+	struct timeval	eat_start;
 }	t_philo;
 
 int		philo_eat(t_philo *philo, struct timeval *ab_time);
@@ -47,7 +49,8 @@ void	philo_die_eating(t_philo *philo, struct timeval time, struct timeval ab_tim
 void	philo_die_waiting(t_philo *philo, struct timeval time, struct timeval ab_time);
 void	init_forks(t_fork *forks, int n_philos);
 void	init_philos(t_philo *philos, t_data *data, t_fork *forks);
-void	init_all_alive(t_philo *philos, int n_philos, t_bool *all_alive, pthread_mutex_t *all_alive_mtx);
+void	init_all_alive(t_philo *philos, int n_philos, t_bool *all_alive, 
+						pthread_mutex_t *all_alive_mtx);
 void	start_philos(t_philo *philos, int n_philos);
 void	join_philos(t_philo *philos, int n_philos);
 void	*philo_thread(void *philo_data);
