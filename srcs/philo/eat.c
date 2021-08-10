@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   eat.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/10 15:52:20 by apavel            #+#    #+#             */
+/*   Updated: 2021/08/10 16:06:12 by apavel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -6,33 +18,29 @@
 #include "../aux/aux.h"
 #include "../log/log.h"
 
-static void	philo_get_forks(t_philo *philo, struct timeval *ab_time)
+static void	philo_get_forks(t_philo *philo)
 {
 	struct timeval	time;
 
-	philo->forks[philo->left_fork_id - 1].in_use = true;
-	pthread_mutex_lock(&philo->forks[philo->left_fork_id - 1].mutex);
-	gettimeofday(&time, NULL);
+	pthread_mutex_lock(&philo->forks[philo->left_fork_id - 1]);
 	pthread_mutex_lock(philo->all_alive_mtx);
-	philo_log(PHILO_FORK, philo, time, *ab_time);
-	pthread_mutex_unlock(philo->all_alive_mtx);
-	philo->forks[philo->right_fork_id - 1].in_use = true;
-	pthread_mutex_lock(&philo->forks[philo->right_fork_id - 1].mutex);
 	gettimeofday(&time, NULL);
-	pthread_mutex_lock(philo->all_alive_mtx);	
-	philo_log(PHILO_FORK, philo, time, *ab_time);
+	philo_log(PHILO_FORK, philo, time, philo->ab_time);
+	pthread_mutex_unlock(philo->all_alive_mtx);
+	pthread_mutex_lock(&philo->forks[philo->right_fork_id - 1]);
+	pthread_mutex_lock(philo->all_alive_mtx);
+	gettimeofday(&time, NULL);
+	philo_log(PHILO_FORK, philo, time, philo->ab_time);
 	pthread_mutex_unlock(philo->all_alive_mtx);
 }
 
 void	philo_release_forks(t_philo *philo)
 {
-	pthread_mutex_unlock(&philo->forks[philo->left_fork_id - 1].mutex);
-	philo->forks[philo->left_fork_id - 1].in_use = false;
-	pthread_mutex_unlock(&philo->forks[philo->right_fork_id - 1].mutex);
-	philo->forks[philo->right_fork_id - 1].in_use = false;
+	pthread_mutex_unlock(&philo->forks[philo->left_fork_id - 1]);
+	pthread_mutex_unlock(&philo->forks[philo->right_fork_id - 1]);
 }
 
-int	philo_eat(t_philo *philo, struct timeval *ab_time)
+void	philo_eat(t_philo *philo)
 {
 	struct timeval	time;
 	struct timeval	eating_time;
@@ -40,20 +48,13 @@ int	philo_eat(t_philo *philo, struct timeval *ab_time)
 	long int		eat_diff;
 	int				dead;
 
-	philo_get_forks(philo, ab_time);
+	philo_get_forks(philo);
+	pthread_mutex_lock(philo->all_alive_mtx);
 	gettimeofday(&time, NULL);
 	gettimeofday(&philo->eat_start, NULL);
-	pthread_mutex_lock(philo->all_alive_mtx);
-	philo_log(PHILO_EAT, philo, time, *ab_time);
+	philo_log(PHILO_EAT, philo, time, philo->ab_time);
 	pthread_mutex_unlock(philo->all_alive_mtx);
-	gettimeofday(&eating_time, NULL);
-	eat_diff = time_diff_us(time, eating_time);
-	while (eat_diff <= (philo->time_to_eat_ms * 1000))
-	{
-		usleep(SLEEP_TIME);
-		eat_diff = time_diff_us(time, eating_time);
-		gettimeofday(&eating_time, NULL);
-	}
+	ft_msleep(philo->time_to_eat_ms);
 	philo_release_forks(philo);
-	return (0);
+	philo->state = SLEEPING;
 }

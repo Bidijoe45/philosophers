@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/10 15:54:39 by apavel            #+#    #+#             */
+/*   Updated: 2021/08/10 15:56:09 by apavel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
@@ -10,64 +22,26 @@
 #include "../log/log.h"
 #include "../aux/aux.h"
 
-void clear_forks_mutexes(t_fork *forks, int n_philos)
+void	clear_forks_mutexes(t_fork *forks, int n_philos)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < n_philos)
 	{
-		pthread_mutex_destroy(&forks[i].mutex);
+		pthread_mutex_destroy(&forks[i]);
 		i++;
 	}
 }
 
-void check_philos(t_philo *philos, int n_philos, t_bool *all_alive)
+void	philo(t_data *data)
 {
-	struct timeval	time;
-	long int		time_diff;
-	int				i;
+	t_fork			*forks;
+	t_philo			*philos;
+	t_bool			all_alive;
+	pthread_mutex_t	all_alive_mtx;
+	struct timeval	ab_time;
 
-	//esperar a que todos los filosofos esten ready
-	while (i < n_philos)
-	{
-		if (philos[i].state == UNINITIALIZED)
-			continue;
-		i++;
-	}
-
-	gettimeofday(&time, NULL);
-	i = 0;
-	while (*all_alive)
-	{
-		//TODO: comprobar si el filosofo se ha muerto
-		time_diff = time_diff_us(time, philos[i].eat_start);
-		
-		printf("checking!\n");
-
-		if (time_diff >= (philos[i].time_to_die_ms * 1000))
-		{
-			printf("PHILO %d died\n", philos[i].id);
-			*all_alive = false;
-			break ;
-		}
-
-		gettimeofday(&time, NULL);
-		if (i == (n_philos - 1))
-			i = 0;
-		else
-			i++;
-	}
-
-}
-
-void philo(t_data *data)
-{
-	t_fork *forks;
-	t_philo *philos;
-	t_bool all_alive;
-	pthread_mutex_t all_alive_mtx;
-	
 	all_alive = true;
 	forks = malloc(sizeof(t_fork) * data->n_philos);
 	init_forks(forks, data->n_philos);
@@ -75,17 +49,20 @@ void philo(t_data *data)
 	init_philos(philos, data, forks);
 	pthread_mutex_init(&all_alive_mtx, NULL);
 	init_all_alive(philos, data->n_philos, &all_alive, &all_alive_mtx);
+	gettimeofday(&ab_time, NULL);
+	init_philos_time(philos, data->n_philos, &ab_time);
 	start_philos(philos, data->n_philos);
 	check_philos(philos, data->n_philos, &all_alive);
 	join_philos(philos, data->n_philos);
-	clear_forks_mutexes(forks, data->n_philos);
 	pthread_mutex_destroy(&all_alive_mtx);
+	free(forks);
+	free(philos);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_data *data;
-	t_args_error args_err;
+	t_data			*data;
+	t_args_error	args_err;
 
 	data = malloc(sizeof(t_data));
 	if (!data)
@@ -94,7 +71,7 @@ int main(int argc, char **argv)
 	if (args_err)
 	{
 		if (args_err == N_OF_ARGS)
-		printf("ERROR: Invalid number of arguments\n");
+			printf("ERROR: Invalid number of arguments\n");
 		else if (args_err == NEGATIVE_ARGS)
 			printf("ERROR: Arguments cannot be negative\n");
 		else if (args_err == NO_DIGIT)

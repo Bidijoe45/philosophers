@@ -1,25 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "philo_bonus.h"
+#include "philo.h"
 #include "../aux/aux.h"
-#include "../philo/log.h"
+#include "../log/log.h"
 
-void	philo_sleep(t_philo *philo, struct timeval *ab_time)
+int	philo_sleep(t_philo *philo)
 {
 	struct timeval	time;
 	struct timeval	sleep_time;
 	int				sleep_diff;
 
 	gettimeofday(&time, NULL);
-	philo_log(PHILO_SLEEP, philo->id, time, *ab_time);
-	
-	gettimeofday(&sleep_time, NULL);
-	sleep_diff = time_diff_us(time, sleep_time);
-	while (sleep_diff <= philo->time_to_sleep_ms)
-	{
-		usleep(5000);
-		gettimeofday(&time, NULL);
-		sleep_diff = time_diff_us(time, sleep_time);
-	}
+	pthread_mutex_lock(philo->all_alive_mtx);
+	philo_log(PHILO_SLEEP, philo, time, philo->ab_time);
+	pthread_mutex_unlock(philo->all_alive_mtx);
+	ft_msleep(philo->time_to_sleep_ms);
+	return (0);
 }

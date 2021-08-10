@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sleep.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/10 15:58:15 by apavel            #+#    #+#             */
+/*   Updated: 2021/08/10 16:06:27 by apavel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -5,7 +17,7 @@
 #include "../aux/aux.h"
 #include "../log/log.h"
 
-int	philo_sleep(t_philo *philo, struct timeval *ab_time)
+void	philo_sleep(t_philo *philo)
 {
 	struct timeval	time;
 	struct timeval	sleep_time;
@@ -13,15 +25,8 @@ int	philo_sleep(t_philo *philo, struct timeval *ab_time)
 
 	gettimeofday(&time, NULL);
 	pthread_mutex_lock(philo->all_alive_mtx);
-	philo_log(PHILO_SLEEP, philo, time, *ab_time);
+	philo_log(PHILO_SLEEP, philo, time, philo->ab_time);
 	pthread_mutex_unlock(philo->all_alive_mtx);
-	gettimeofday(&sleep_time, NULL);
-	sleep_diff = time_diff_us(time, sleep_time);
-	while (sleep_diff <= philo->time_to_sleep_ms * 1000)
-	{
-		usleep(SLEEP_TIME);
-		gettimeofday(&time, NULL);
-		sleep_diff = time_diff_us(time, sleep_time);
-	}
-	return (0);
+	ft_msleep(philo->time_to_sleep_ms);
+	philo->state = THINKING;
 }

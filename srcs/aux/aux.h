@@ -3,8 +3,11 @@
 
 # include <sys/time.h>
 
+#define SLEEP_TIME 50
+
 int	ft_atoi(const char *str);
 int	ft_isdigit(int c);
-long long int	time_diff_us(struct timeval time1, struct timeval time2);
+void ft_msleep(unsigned int ms);
+unsigned long int	time_diff_ms(struct timeval time1, struct timeval time2);
 
 #endif

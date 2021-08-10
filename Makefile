@@ -1,26 +1,32 @@
 PHILO_SRCS =	./srcs/philo/philo.c \
-				./srcs/aux/ft_atoi.c \
-				./srcs/aux/ft_isdigit.c \
-				./srcs/aux/time_diff.c \
-				./srcs/parser/parser.c \
 				./srcs/philo/eat.c \
 				./srcs/philo/think.c \
 				./srcs/philo/sleep.c \
-				./srcs/log/log.c	\
 				./srcs/philo/thread.c \
 				./srcs/philo/die.c \
-				./srcs/philo/philo_init.c	
-
+				./srcs/philo/philo_init.c \
+				./srcs/philo/monitor.c \
+				./srcs/aux/ft_atoi.c \
+				./srcs/aux/ft_isdigit.c \
+				./srcs/aux/time_diff.c \
+				./srcs/aux/ft_msleep.c \
+				./srcs/parser/parser.c \
+				./srcs/log/log.c	\
 
 PHILO_SRCS_BONUS =	./srcs/philo_bonus/philo_bonus.c \
-					./srcs/aux/ft_atoi.c \
-					./srcs/aux/ft_isdigit.c \
-					./srcs/aux/time_diff.c \
-					./srcs/parser/parser.c \
 					./srcs/philo_bonus/eat_bonus.c \
 					./srcs/philo_bonus/think_bonus.c \
 					./srcs/philo_bonus/sleep_bonus.c \
-					./srcs/philo/log.c
+					./srcs/philo_bonus/thread_bonus.c \
+					./srcs/philo_bonus/die_bonus.c \
+					./srcs/philo_bonus/philo_init_bonus.c \
+					./srcs/philo_bonus/monitor_bonus.c \
+					./srcs/aux/ft_atoi.c \
+					./srcs/aux/ft_isdigit.c \
+					./srcs/aux/time_diff.c \
+					./srcs/aux/ft_msleep.c
+					./srcs/parser/parser.c \
+					./srcs/log/log.c	\
 
 PHILO_OBJS = ${PHILO_SRCS:.c=.o}
 PHILO_BONUS_OBJS = ${PHILO_SRCS_BONUS:.c=.o}
@@ -38,7 +44,7 @@ philo: $(PHILO_OBJS)
 	gcc $(PHILO_OBJS) -o $(NAME) -pthread
 	
 philo_bonus: $(PHILO_BONUS_OBJS)
-	gcc $(PHILO_BONUS_OBJS) -o $(BONUS_NAME) $(SANITIZE)
+	gcc $(PHILO_BONUS_OBJS) -o $(BONUS_NAME) -pthread
 
 clean:
 	rm -rf $(PHILO_OBJS)
@@ -48,5 +54,4 @@ fclean: clean
 	rm -rf philo
 	rm -rf philo_bonus
 
-re: clean fclean
-	all
+re: clean fclean all

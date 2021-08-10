@@ -9,7 +9,7 @@ void	philo_log(t_log_type type, t_philo *philo,
 {
 	unsigned int	time;
 
-	time = time_diff_us(mtime, ab_time) / 1000;
+	time = (int)(time_diff_ms(mtime, ab_time));
 	
 	if (type == PHILO_DEATH && *philo->all_alive)
 		printf("%u %d died\n", time, philo->id);
