@@ -16,7 +16,7 @@ PHILO_SRCS_BONUS =	./srcs/philo_bonus/philo_bonus.c \
 					./srcs/philo_bonus/eat_bonus.c \
 					./srcs/philo_bonus/think_bonus.c \
 					./srcs/philo_bonus/sleep_bonus.c \
-					./srcs/philo_bonus/thread_bonus.c \
+					./srcs/philo_bonus/process_bonus.c \
 					./srcs/philo_bonus/philo_init_bonus.c \
 					./srcs/philo_bonus/monitor_bonus.c \
 					./srcs/aux/ft_atoi.c \
@@ -52,4 +52,6 @@ fclean: clean
 	rm -rf philo
 	rm -rf philo_bonus
 
-re: clean fclean all
+re: fclean all
+
+rebonus: fclean bonus

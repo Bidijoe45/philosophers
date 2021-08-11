@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 15:52:20 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/10 16:06:12 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/11 18:55:20 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,39 @@ static void	philo_get_forks(t_philo *philo)
 {
 	struct timeval	time;
 
-	pthread_mutex_lock(&philo->forks[philo->left_fork_id - 1]);
-	pthread_mutex_lock(philo->all_alive_mtx);
-	gettimeofday(&time, NULL);
-	philo_log(PHILO_FORK, philo, time, philo->ab_time);
-	pthread_mutex_unlock(philo->all_alive_mtx);
-	pthread_mutex_lock(&philo->forks[philo->right_fork_id - 1]);
-	pthread_mutex_lock(philo->all_alive_mtx);
-	gettimeofday(&time, NULL);
-	philo_log(PHILO_FORK, philo, time, philo->ab_time);
-	pthread_mutex_unlock(philo->all_alive_mtx);
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(&philo->forks[philo->right_fork_id - 1]);
+	
+		pthread_mutex_lock(philo->all_alive_mtx);
+		gettimeofday(&time, NULL);
+		philo_log(PHILO_FORK, philo, time, philo->ab_time);
+		pthread_mutex_unlock(philo->all_alive_mtx);
+
+		pthread_mutex_lock(&philo->forks[philo->left_fork_id - 1]);
+
+		pthread_mutex_lock(philo->all_alive_mtx);
+		gettimeofday(&time, NULL);
+		philo_log(PHILO_FORK, philo, time, philo->ab_time);
+		pthread_mutex_unlock(philo->all_alive_mtx);
+	}
+	else
+	{
+		pthread_mutex_lock(&philo->forks[philo->left_fork_id - 1]);
+
+		pthread_mutex_lock(philo->all_alive_mtx);
+		gettimeofday(&time, NULL);
+		philo_log(PHILO_FORK, philo, time, philo->ab_time);
+		pthread_mutex_unlock(philo->all_alive_mtx);
+
+		pthread_mutex_lock(&philo->forks[philo->right_fork_id - 1]);
+
+		pthread_mutex_lock(philo->all_alive_mtx);
+		gettimeofday(&time, NULL);
+		philo_log(PHILO_FORK, philo, time, philo->ab_time);
+		pthread_mutex_unlock(philo->all_alive_mtx);
+	}
+	
 }
 
 void	philo_release_forks(t_philo *philo)

@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 15:52:26 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/10 17:33:43 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/11 18:59:47 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_bool	check_philo_death(t_philo *philo, struct timeval time)
 	long int	time_diff;
 
 	time_diff = time_diff_ms(time, philo->eat_start);
-	if (time_diff >= ((philo->time_to_die_ms + 1))
+	if (time_diff >= ((philo->time_to_die_ms + 5))
 		&& philo->state != UNINITIALIZED && philo->state != DONE)
 	{
 		return (true);
@@ -66,6 +66,6 @@ void	check_philos(t_philo *philos, int n_philos, t_bool *all_alive)
 			i = 0;
 		else
 			i++;
-		usleep(CHECK_TIME);
+		usleep(50);
 	}
 }

@@ -15,4 +15,4 @@ void ft_msleep(unsigned int ms)
 		gettimeofday(&time, NULL);
 		usleep(SLEEP_TIME);
 	}
-}
+} 

@@ -10,6 +10,9 @@
 #include "../log/log_bonus.h"
 #include "../aux/aux.h"
 
+#include <errno.h>
+#include <string.h>
+
 void philo_bonus(t_data *data)
 {
 	t_fork			*forks;
@@ -18,24 +21,27 @@ void philo_bonus(t_data *data)
 	sem_t			*all_alive_mtx;
 	struct timeval	ab_time;
 	
-	all_alive = true;
+	//FIXME:	de verdad hace falta limpiar los semaforos al principio
+	//			o e solo una ilusion?
+	sem_unlink(SEM_FORKS);
+	sem_unlink(SEM_ALL_ALIVE);
 
-	forks = sem_open(SEM_FORKS, O_CREAT | O_EXCL, O_RDWR, data->n_philos);
+	forks = sem_open(SEM_FORKS, O_CREAT | O_EXCL, 0644, data->n_philos);
 	if (forks == SEM_FAILED)
-		printf("Cannot create forks semaphore\n");
+		printf("Cannot create forks semaphore: %s\n", strerror(errno));
 
 	philos = malloc(sizeof(t_philo) * data->n_philos);
 	init_philos(philos, data, forks);
 
-	all_alive_mtx = sem_open(SEM_ALL_ALIVE, O_CREAT | O_EXCL, O_RDWR, 1);
+	all_alive_mtx = sem_open(SEM_ALL_ALIVE, O_CREAT | O_EXCL, 0644, 1);
 	if (all_alive_mtx == SEM_FAILED)
-		printf("Cannot create all_alive_mtx semaphore\n");
+		printf("Cannot create all_alive_mtx semaphore: %s\n", strerror(errno));
 
+	all_alive = true;
 	init_all_alive(philos, data->n_philos, &all_alive, all_alive_mtx);
 	gettimeofday(&ab_time, NULL);
 	init_philos_time(philos, data->n_philos, &ab_time);
 	start_philos(philos, data->n_philos);
-	check_philos(philos, data->n_philos, &all_alive);
 	wait_philos(philos, data->n_philos);
 
 	sem_close(forks);

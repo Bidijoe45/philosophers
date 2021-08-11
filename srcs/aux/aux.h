@@ -3,7 +3,7 @@
 
 # include <sys/time.h>
 
-#define SLEEP_TIME 50
+#define SLEEP_TIME 300
 
 int	ft_atoi(const char *str);
 int	ft_isdigit(int c);

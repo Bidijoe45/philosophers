@@ -6,8 +6,8 @@
 # include "../bool.h"
 # include "../data.h"
 
-# define SEM_FORKS "forks"
-# define SEM_ALL_ALIVE "all_alive"
+# define SEM_FORKS "forks_3"
+# define SEM_ALL_ALIVE "all_alive_3"
 # define CHECK_TIME 100
 
 typedef sem_t t_fork;
@@ -24,6 +24,7 @@ typedef enum e_pstate
 typedef struct s_philo
 {
 	int				id;
+	pid_t			pid;
 	int				time_to_die_ms;
 	int				time_to_eat_ms;
 	int				time_to_sleep_ms;
@@ -48,7 +49,7 @@ void	init_philos_time(t_philo *philos, int n_philos, struct timeval *ab_time);
 void	start_philos(t_philo *philos, int n_philos);
 void	wait_philos(t_philo *philos, int n_philos);
 void	philo_process(t_philo *philo_data);
-void	check_philos(t_philo *philos, int n_philos, t_bool *all_alive);
+void	*check_philo_death_thread(void *philo_data);
 t_philo *alloc_philos(int n_philos);
 
 #endif
