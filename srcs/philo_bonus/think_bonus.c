@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <sys/time.h>
-#include "philo.h"
-#include "../log/log.h"
+#include "philo_bonus.h"
+#include "../log/log_bonus.h"
 
 void	philo_think(t_philo *philo)
 {
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	pthread_mutex_lock(philo->all_alive_mtx);
+	sem_wait(philo->all_alive_mtx);
 	philo_log(PHILO_THINK, philo, time, philo->ab_time);
-	pthread_mutex_unlock(philo->all_alive_mtx);
+	sem_post(philo->all_alive_mtx);
+	philo->state = EATING;
 }

@@ -3,7 +3,6 @@ PHILO_SRCS =	./srcs/philo/philo.c \
 				./srcs/philo/think.c \
 				./srcs/philo/sleep.c \
 				./srcs/philo/thread.c \
-				./srcs/philo/die.c \
 				./srcs/philo/philo_init.c \
 				./srcs/philo/monitor.c \
 				./srcs/aux/ft_atoi.c \
@@ -11,22 +10,21 @@ PHILO_SRCS =	./srcs/philo/philo.c \
 				./srcs/aux/time_diff.c \
 				./srcs/aux/ft_msleep.c \
 				./srcs/parser/parser.c \
-				./srcs/log/log.c	\
+				./srcs/log/log.c
 
 PHILO_SRCS_BONUS =	./srcs/philo_bonus/philo_bonus.c \
 					./srcs/philo_bonus/eat_bonus.c \
 					./srcs/philo_bonus/think_bonus.c \
 					./srcs/philo_bonus/sleep_bonus.c \
 					./srcs/philo_bonus/thread_bonus.c \
-					./srcs/philo_bonus/die_bonus.c \
 					./srcs/philo_bonus/philo_init_bonus.c \
 					./srcs/philo_bonus/monitor_bonus.c \
 					./srcs/aux/ft_atoi.c \
 					./srcs/aux/ft_isdigit.c \
 					./srcs/aux/time_diff.c \
-					./srcs/aux/ft_msleep.c
+					./srcs/aux/ft_msleep.c \
 					./srcs/parser/parser.c \
-					./srcs/log/log.c	\
+					./srcs/log/log_bonus.c
 
 PHILO_OBJS = ${PHILO_SRCS:.c=.o}
 PHILO_BONUS_OBJS = ${PHILO_SRCS_BONUS:.c=.o}

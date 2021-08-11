@@ -1,11 +1,10 @@
 #include <unistd.h>
-#include "philo.h"
+#include <stdlib.h>
+#include <semaphore.h>
+#include "philo_bonus.h"
 #include "../aux/aux.h"
 #include "../bool.h"
-#include "../log/log.h"
-
-#include <stdio.h>
-#include <stdlib.h>
+#include "../log/log_bonus.h"
 
 t_bool check_philo_death(t_philo *philo, struct timeval time)
 {
@@ -22,11 +21,11 @@ t_bool check_philo_death(t_philo *philo, struct timeval time)
 
 void kill_philo(t_philo *philo, struct timeval time, t_bool *all_alive)
 {
-	pthread_mutex_lock(philo->all_alive_mtx);
+	sem_wait(philo->all_alive_mtx);
 	philo_log(PHILO_DEATH, philo, time, philo->ab_time);
 	*all_alive = false;
 	philo_release_forks(philo);
-	pthread_mutex_unlock(philo->all_alive_mtx);
+	sem_post(philo->all_alive_mtx);
 }
 
 void check_philos(t_philo *philos, int n_philos, t_bool *all_alive)

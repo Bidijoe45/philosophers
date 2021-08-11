@@ -3,47 +3,46 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <unistd.h>
-#include "philo.h"
+#include "philo_bonus.h"
 #include "../parser/parser.h"
 #include "../bool.h"
 #include "../data.h"
-#include "../log/log.h"
+#include "../log/log_bonus.h"
 #include "../aux/aux.h"
 
-void clear_forks_mutexes(t_fork *forks, int n_philos)
+void philo_bonus(t_data *data)
 {
-	int i;
-
-	i = 0;
-	while (i < n_philos)
-	{
-		pthread_mutex_destroy(&forks[i]);
-		i++;
-	}
-}
-
-void philo(t_data *data)
-{
-	t_fork *forks;
-	t_philo *philos;
-	t_bool all_alive;
-	pthread_mutex_t all_alive_mtx;
-	struct timeval ab_time;
+	t_fork			*forks;
+	t_philo			*philos;
+	t_bool			all_alive;
+	sem_t			*all_alive_mtx;
+	struct timeval	ab_time;
 	
 	all_alive = true;
-	forks = malloc(sizeof(t_fork) * data->n_philos);
-	init_forks(forks, data->n_philos);
+
+	forks = sem_open(SEM_FORKS, O_CREAT | O_EXCL, O_RDWR, data->n_philos);
+	if (forks == SEM_FAILED)
+		printf("Cannot create forks semaphore\n");
+
 	philos = malloc(sizeof(t_philo) * data->n_philos);
 	init_philos(philos, data, forks);
-	pthread_mutex_init(&all_alive_mtx, NULL);
-	init_all_alive(philos, data->n_philos, &all_alive, &all_alive_mtx);
+
+	all_alive_mtx = sem_open(SEM_ALL_ALIVE, O_CREAT | O_EXCL, O_RDWR, 1);
+	if (all_alive_mtx == SEM_FAILED)
+		printf("Cannot create all_alive_mtx semaphore\n");
+
+	init_all_alive(philos, data->n_philos, &all_alive, all_alive_mtx);
 	gettimeofday(&ab_time, NULL);
 	init_philos_time(philos, data->n_philos, &ab_time);
 	start_philos(philos, data->n_philos);
 	check_philos(philos, data->n_philos, &all_alive);
-	join_philos(philos, data->n_philos);
-	pthread_mutex_destroy(&all_alive_mtx);
-	free(forks);
+	wait_philos(philos, data->n_philos);
+
+	sem_close(forks);
+	sem_unlink(SEM_FORKS);
+	sem_close(all_alive_mtx);
+	sem_unlink(SEM_ALL_ALIVE);
+
 	free(philos);
 }
 
@@ -68,7 +67,7 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 	else
-		philo(data);
+		philo_bonus(data);
 	free(data);
 	return (0);
 }
