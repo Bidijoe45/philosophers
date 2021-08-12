@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 15:54:19 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/10 15:54:20 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/12 19:57:10 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	init_forks(t_fork *forks, int n_philos)
 void	init_philos(t_philo *philos, t_data *data, t_fork *forks)
 {
 	int	i;
-	int	id;
 
 	i = 0;
 	while (i < data->n_philos)

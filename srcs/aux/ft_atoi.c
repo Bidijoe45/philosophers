@@ -6,17 +6,17 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:51:14 by apavel            #+#    #+#             */
-/*   Updated: 2021/07/12 11:51:26 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/12 19:12:50 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 
-int	ft_atoi(const char *str)
+long int	ft_atoli(const char *str)
 {
-	int		num;
-	size_t	i;
-	int		neg;
+	long int	num;
+	size_t		i;
+	int			neg;
 
 	num = 0;
 	i = 0;

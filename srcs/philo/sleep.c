@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 15:58:15 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/10 16:06:27 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/12 19:56:39 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 void	philo_sleep(t_philo *philo)
 {
 	struct timeval	time;
-	struct timeval	sleep_time;
-	int				sleep_diff;
 
 	gettimeofday(&time, NULL);
 	pthread_mutex_lock(philo->all_alive_mtx);

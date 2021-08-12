@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 15:59:03 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/11 19:01:13 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/12 19:57:00 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 void	start_philos(t_philo *philos, int n_philos)
 {
 	int	i;
-
 
 	i = 0;
 	while (i < n_philos)
@@ -33,10 +32,6 @@ void	start_philos(t_philo *philos, int n_philos)
 		pthread_create(&(philos[i].thread), NULL, philo_thread, &(philos[i]));
 		i += 2;
 	}
-	
-
-
-
 }
 
 void	join_philos(t_philo *philos, int n_philos)
@@ -54,8 +49,6 @@ void	join_philos(t_philo *philos, int n_philos)
 void	*philo_thread(void *philo_data)
 {
 	t_philo			*philo;
-	struct timeval	time;
-	int				dead;
 
 	philo = (t_philo *)philo_data;
 	philo->state = EATING;

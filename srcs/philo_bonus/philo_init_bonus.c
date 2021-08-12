@@ -1,11 +1,22 @@
-#include <semaphore.h>
-#include "philo_bonus.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_init_bonus.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/12 19:59:19 by apavel            #+#    #+#             */
+/*   Updated: 2021/08/12 20:11:20 by apavel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include <semaphore.h>
+#include <stdio.h>
+#include "philo_bonus.h"
 
 void	init_philos(t_philo *philos, t_data *data, t_fork *forks)
 {
 	int	i;
-	int	id;
 
 	i = 0;
 	while (i < data->n_philos)
@@ -22,10 +33,20 @@ void	init_philos(t_philo *philos, t_data *data, t_fork *forks)
 	}
 }
 
-void init_all_alive(t_philo *philos, int n_philos, t_bool *all_alive,
-                        sem_t *all_alive_mtx)
+void	init_semaphores(t_fork **forks, sem_t **all_alive_mtx, int n_philos)
 {
-	int i;
+	*forks = sem_open(SEM_FORKS, O_CREAT | O_EXCL, 0644, n_philos);
+	if (*forks == SEM_FAILED)
+		printf("Cannot create forks semaphore\n");
+	*all_alive_mtx = sem_open(SEM_ALL_ALIVE, O_CREAT | O_EXCL, 0644, 1);
+	if (*all_alive_mtx == SEM_FAILED)
+		printf("Cannot create all_alive_mtx semaphore\n");
+}
+
+void	init_all_alive(t_philo *philos, int n_philos, t_bool *all_alive,
+				sem_t *all_alive_mtx)
+{
+	int	i;
 
 	i = 0;
 	while (i < n_philos)
@@ -36,9 +57,9 @@ void init_all_alive(t_philo *philos, int n_philos, t_bool *all_alive,
 	}
 }
 
-void init_philos_time(t_philo *philos, int n_philos, struct timeval *ab_time)
+void	init_philos_time(t_philo *philos, int n_philos, struct timeval *ab_time)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < n_philos)

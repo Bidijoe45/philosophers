@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sleep_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/12 19:59:27 by apavel            #+#    #+#             */
+/*   Updated: 2021/08/12 20:03:30 by apavel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -8,8 +20,6 @@
 void	philo_sleep(t_philo *philo)
 {
 	struct timeval	time;
-	struct timeval	sleep_time;
-	int				sleep_diff;
 
 	gettimeofday(&time, NULL);
 	sem_wait(philo->all_alive_mtx);

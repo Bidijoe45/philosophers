@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 15:54:39 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/10 17:48:28 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/12 19:58:14 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ int	main(int argc, char **argv)
 	t_args_error	args_err;
 
 	data = malloc(sizeof(t_data));
-	if (!data)
-		exit(1);
 	args_err = check_args(data, argc, argv);
 	if (args_err)
 	{
@@ -76,6 +74,11 @@ int	main(int argc, char **argv)
 			printf("ERROR: Arguments cannot be negative\n");
 		else if (args_err == NO_DIGIT)
 			printf("ERROR: Arguments can be digits only\n");
+		else if (args_err == NUMBER_TOO_BIG)
+			printf("ERROR: Argument number cannot be bigger than %d\n",
+				__INT_MAX__);
+		else if (args_err == NUMBER_TOO_SMALL)
+			printf("ERROR: Argument number cannot be 0 or smaller\n");
 		free(data);
 		exit(1);
 	}

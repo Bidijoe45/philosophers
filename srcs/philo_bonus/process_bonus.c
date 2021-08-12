@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process_bonus.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/12 19:59:23 by apavel            #+#    #+#             */
+/*   Updated: 2021/08/12 20:13:15 by apavel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <pthread.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -6,49 +18,42 @@
 #include "philo_bonus.h"
 #include "../aux/aux.h"
 
+void	start_philos_i(t_philo *philos, int n_philos, int index_start)
+{
+	int		i;
+	pid_t	pid;
+
+	i = index_start;
+	while (i < n_philos)
+	{
+		pid = fork();
+		philos[i].pid = pid;
+		if (pid == 0)
+		{
+			philo_process(&philos[i]);
+			exit(0);
+		}
+		i += 2;
+	}
+}
+
 void	start_philos(t_philo *philos, int n_philos)
 {
 	int		i;
 	pid_t	pid;
 
-	i = 0;
-	while (i < n_philos)
-	{
-		pid = fork();
-		philos[i].pid = pid;
-		if (pid)
-			philo_process(&philos[i]);
-		i += 2;
- 	}
+	start_philos_i(philos, n_philos, 0);
 	usleep(1000);
-	i = 1;
-	while (i < n_philos)
-	{
-		pid = fork();
-		philos[i].pid = pid;
-		if (pid)
-			philo_process(&philos[i]);
-		i += 2;
- 	}
+	start_philos_i(philos, n_philos, 1);
 }
-	
-void	wait_philos(t_philo *philos, int n_philos)
-{
-	int	i;
-	int status;
 
-	i = 0;
-	while (i < n_philos)
-	{
-		waitpid(philos[i].pid, &status, 0);
-		i++;
-	}
+void	wait_philos(void)
+{
+	waitpid(-1, 0, 0);
 }
 
 void	philo_process(t_philo *philo)
 {
-	struct timeval	time;
-	int				dead;
 	pthread_t		death_check_thread;
 
 	philo->state = EATING;
