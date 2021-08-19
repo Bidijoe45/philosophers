@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/19 12:44:22 by apavel            #+#    #+#             */
+/*   Updated: 2021/08/19 12:44:42 by apavel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 #include "../aux/aux.h"
 
-void init_data(t_data *data)
+void	init_data(t_data *data)
 {
 	data->n_philos = -1;
 	data->time_to_die = -1;
@@ -42,7 +54,7 @@ void	set_arg(t_data *data, int n_arg, int val)
 
 t_args_error	parse_arg(t_data *data, int n_arg, char *arg)
 {
-	long long int val;
+	long long int	val;
 
 	val = ft_atoli(arg);
 	if (val > __INT_MAX__)

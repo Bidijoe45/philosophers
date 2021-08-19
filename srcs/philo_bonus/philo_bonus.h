@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 19:58:43 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/12 20:09:11 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/19 12:31:55 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	init_philos_time(t_philo *philos, int n_philos,
 			struct timeval *ab_time);
 void	init_semaphores(t_fork **forks, sem_t **all_alive_mtx, int n_philos);
 void	start_philos(t_philo *philos, int n_philos);
-void	wait_philos(void);
+void	wait_philos(t_philo *philos, int n_philos);
 void	philo_process(t_philo *philo_data);
 void	*check_philo_death_thread(void *philo_data);
 void	sigkill_all_philos(t_philo *philos, int n_philos);

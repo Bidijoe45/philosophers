@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   log_bonus.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/08/19 12:40:09 by apavel            #+#    #+#             */
+/*   Updated: 2021/08/19 12:41:34 by apavel           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <sys/time.h>
 #include "log_bonus.h"
@@ -10,7 +22,6 @@ void	philo_log(t_log_type type, t_philo *philo,
 	unsigned int	time;
 
 	time = (int)(time_diff_ms(mtime, ab_time));
-	
 	if (type == PHILO_DEATH && *philo->all_alive)
 		printf("%u %d died\n", time, philo->id);
 	else if (type == PHILO_EAT && *philo->all_alive)

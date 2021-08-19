@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 19:59:01 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/12 20:07:19 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/19 12:28:11 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	philo_bonus(t_data *data)
 	gettimeofday(&ab_time, NULL);
 	init_philos_time(philos, data->n_philos, &ab_time);
 	start_philos(philos, data->n_philos);
-	wait_philos();
+	wait_philos(philos, data->n_philos);
 	sigkill_all_philos(philos, data->n_philos);
 	sem_close(forks);
 	sem_unlink(SEM_FORKS);
