@@ -6,17 +6,17 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 19:58:50 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/12 20:03:14 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/20 11:51:22 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "../bool.h"
+#include "bool.h"
 #include "philo_bonus.h"
-#include "../aux/aux.h"
-#include "../log/log_bonus.h"
+#include "aux/aux.h"
+#include "log/log_bonus.h"
 
 static void	philo_get_forks(t_philo *philo)
 {

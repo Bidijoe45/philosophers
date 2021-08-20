@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 19:58:55 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/19 12:32:08 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/20 11:52:03 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 #include <signal.h>
 #include <stdio.h>
 #include "philo_bonus.h"
-#include "../aux/aux.h"
-#include "../bool.h"
-#include "../log/log_bonus.h"
+#include "aux/aux.h"
+#include "bool.h"
+#include "log/log_bonus.h"
 
 void	sigkill_all_philos(t_philo *philos, int n_philos)
 {

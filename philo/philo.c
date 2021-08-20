@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 15:54:39 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/12 19:58:14 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/20 11:47:09 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include "philo.h"
-#include "../parser/parser.h"
-#include "../bool.h"
-#include "../data.h"
-#include "../log/log.h"
-#include "../aux/aux.h"
+#include "parser/parser.h"
+#include "bool.h"
+#include "data.h"
+#include "log/log.h"
+#include "aux/aux.h"
 
 void	clear_forks_mutexes(t_fork *forks, int n_philos)
 {

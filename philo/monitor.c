@@ -6,18 +6,15 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 15:52:26 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/12 19:36:05 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/20 11:48:42 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "philo.h"
-#include "../aux/aux.h"
-#include "../bool.h"
-#include "../log/log.h"
-
-#include <stdio.h>
-#include <stdlib.h>
+#include "aux/aux.h"
+#include "bool.h"
+#include "log/log.h"
 
 t_bool	check_philo_death(t_philo *philo, struct timeval time)
 {

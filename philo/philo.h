@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 15:57:11 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/11 18:17:11 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/20 11:47:33 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <pthread.h>
 # include <sys/time.h>
-# include "../bool.h"
-# include "../data.h"
+# include "bool.h"
+# include "data.h"
 
 # define CHECK_TIME 250
 

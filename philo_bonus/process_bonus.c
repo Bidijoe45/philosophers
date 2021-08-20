@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 19:59:23 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/19 12:34:04 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/20 11:51:51 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 #include "philo_bonus.h"
-#include "../aux/aux.h"
+#include "aux/aux.h"
 
 void	start_philos_i(t_philo *philos, int n_philos, int index_start)
 {

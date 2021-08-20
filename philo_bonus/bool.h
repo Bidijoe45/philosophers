@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data.h                                             :+:      :+:    :+:   */
+/*   bool.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 12:35:09 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/19 12:35:31 by apavel           ###   ########.fr       */
+/*   Created: 2021/08/19 12:34:20 by apavel            #+#    #+#             */
+/*   Updated: 2021/08/20 11:45:02 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DATA_H
-# define DATA_H
+#ifndef BOOL_H
+# define BOOL_H
 
-typedef struct s_data
+typedef enum e_bool
 {
-	int		n_philos;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		ntimes_to_eat;
-}				t_data;
+	true = 1,
+	false = 0
+}			t_bool;
 
 #endif

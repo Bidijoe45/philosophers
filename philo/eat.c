@@ -6,17 +6,17 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 15:52:20 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/12 19:57:46 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/20 11:48:06 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "../bool.h"
+#include "bool.h"
 #include "philo.h"
-#include "../aux/aux.h"
-#include "../log/log.h"
+#include "aux/aux.h"
+#include "log/log.h"
 
 void	get_left_fork(t_philo *philo)
 {

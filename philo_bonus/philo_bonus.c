@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 19:59:01 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/19 12:28:11 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/20 11:51:52 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include "philo_bonus.h"
-#include "../parser/parser.h"
-#include "../bool.h"
-#include "../data.h"
-#include "../log/log_bonus.h"
-#include "../aux/aux.h"
+#include "parser/parser.h"
+#include "bool.h"
+#include "data.h"
+#include "log/log_bonus.h"
+#include "aux/aux.h"
 
 void	philo_bonus(t_data *data)
 {

@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sleep_bonus.c                                      :+:      :+:    :+:   */
+/*   time_diff.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/12 19:59:27 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/12 20:03:30 by apavel           ###   ########.fr       */
+/*   Created: 2021/08/19 12:38:05 by apavel            #+#    #+#             */
+/*   Updated: 2021/08/19 12:39:16 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include "philo_bonus.h"
-#include "../aux/aux.h"
-#include "../log/log_bonus.h"
+#include <sys/time.h>
 
-void	philo_sleep(t_philo *philo)
+unsigned long int	ft_abs(long int n)
 {
-	struct timeval	time;
+	if (n < 0)
+		return (-n);
+	return (n);
+}
 
-	gettimeofday(&time, NULL);
-	sem_wait(philo->all_alive_mtx);
-	philo_log(PHILO_SLEEP, philo, time, philo->ab_time);
-	sem_post(philo->all_alive_mtx);
-	ft_msleep(philo->time_to_sleep_ms);
-	philo->state = THINKING;
+unsigned long int	time_diff_ms(struct timeval time1, struct timeval time2)
+{
+	return (ft_abs((time1.tv_sec * 1000 + time1.tv_usec / 1000)
+			- (time2.tv_sec * 1000 + time2.tv_usec / 1000)));
 }

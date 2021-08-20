@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   log.h                                              :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/19 12:40:48 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/19 12:40:48 by apavel           ###   ########.fr       */
+/*   Created: 2021/08/19 12:44:50 by apavel            #+#    #+#             */
+/*   Updated: 2021/08/20 11:45:45 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOG_H
-# define LOG_H
+#ifndef PARSER_H
+# define PARSER_H
 
-# include <sys/time.h>
-# include "../philo/philo.h"
+# include "../data.h"
 
-typedef enum e_log_type
+typedef enum e_args_error
 {
-	PHILO_DEATH,
-	PHILO_EAT,
-	PHILO_SLEEP,
-	PHILO_THINK,
-	PHILO_FORK
-}	t_log_type;
+	NO_ERROR = 0,
+	N_OF_ARGS,
+	NEGATIVE_ARGS,
+	NO_DIGIT,
+	NUMBER_TOO_BIG,
+	NUMBER_TOO_SMALL
+}			t_args_error;
 
-void	philo_log(t_log_type type, t_philo *philo, struct timeval time,
-			struct timeval ab_time);
+t_args_error	check_args(t_data *data, int argc, char **argv);
 
 #endif

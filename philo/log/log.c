@@ -6,14 +6,14 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 12:40:17 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/19 12:40:40 by apavel           ###   ########.fr       */
+/*   Updated: 2021/08/20 11:43:11 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <sys/time.h>
 #include "log.h"
-#include "../philo/philo.h"
+#include "../philo.h"
 #include "../aux/aux.h"
 
 void	philo_log(t_log_type type, t_philo *philo,
