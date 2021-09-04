@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 19:59:23 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/20 11:51:51 by apavel           ###   ########.fr       */
+/*   Updated: 2021/09/04 20:09:53 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,6 @@ void	start_philos(t_philo *philos, int n_philos)
 	start_philos_i(philos, n_philos, 0);
 	usleep(1000);
 	start_philos_i(philos, n_philos, 1);
-}
-
-void	wait_philos(t_philo *philos, int n_philos)
-{
-	int	i;
-
-	i = 0;
-	while (i < n_philos)
-	{
-		waitpid(philos[i].pid, 0, 0);
-		i++;
-	}
 }
 
 void	philo_process(t_philo *philo)

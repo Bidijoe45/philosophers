@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 19:58:55 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/20 11:52:03 by apavel           ###   ########.fr       */
+/*   Updated: 2021/09/04 20:15:42 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,15 @@ void	sigkill_all_philos(t_philo *philos, int n_philos)
 	}
 }
 
-void	kill_philo(t_philo *philo, struct timeval time)
+void	kill_philo(t_philo *philo)
 {
-	sem_wait(philo->all_alive_mtx);
-	philo_log(PHILO_DEATH, philo, time, philo->ab_time);
 	*philo->all_alive = false;
 	philo_release_forks(philo);
-	sem_post(philo->all_alive_mtx);
 	sem_close(philo->forks);
 	sem_unlink(SEM_FORKS);
 	sem_close(philo->all_alive_mtx);
 	sem_unlink(SEM_ALL_ALIVE);
-	exit(0);
+	exit(philo->id);
 }
 
 void	*check_philo_death_thread(void *philo_data)
@@ -59,7 +56,8 @@ void	*check_philo_death_thread(void *philo_data)
 	{
 		gettimeofday(&time, NULL);
 		usleep(CHECK_TIME);
+		time_diff = time_diff_ms(philo->eat_start, time);
 	}
-	kill_philo(philo, time);
+	kill_philo(philo);
 	return (NULL);
 }

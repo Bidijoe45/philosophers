@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 19:59:01 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/20 11:51:52 by apavel           ###   ########.fr       */
+/*   Updated: 2021/09/04 20:22:41 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,35 @@
 #include "data.h"
 #include "log/log_bonus.h"
 #include "aux/aux.h"
+
+void	close_semaphores(t_fork *forks, sem_t *all_alive_mtx)
+{
+	sem_close(forks);
+	sem_unlink(SEM_FORKS);
+	sem_close(all_alive_mtx);
+	sem_unlink(SEM_ALL_ALIVE);
+}
+
+void	wait_philos(t_philo *philos, int n_philos)
+{
+	int				status;
+	int				i;
+	struct timeval	time;
+
+	waitpid(-1, &status, 0);
+	i = 0;
+	while (i < n_philos)
+	{
+		if (philos[i].id == status >> 8)
+		{
+			gettimeofday(&time, NULL);
+			philo_log(PHILO_DEATH, &philos[i], time, philos[i].ab_time);
+			break ;
+		}
+		i++;
+	}
+	sigkill_all_philos(philos, n_philos);
+}
 
 void	philo_bonus(t_data *data)
 {
@@ -41,11 +70,6 @@ void	philo_bonus(t_data *data)
 	init_philos_time(philos, data->n_philos, &ab_time);
 	start_philos(philos, data->n_philos);
 	wait_philos(philos, data->n_philos);
-	sigkill_all_philos(philos, data->n_philos);
-	sem_close(forks);
-	sem_unlink(SEM_FORKS);
-	sem_close(all_alive_mtx);
-	sem_unlink(SEM_ALL_ALIVE);
 	free(philos);
 }
 
