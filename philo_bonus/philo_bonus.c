@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 19:59:01 by apavel            #+#    #+#             */
-/*   Updated: 2021/09/04 20:22:41 by apavel           ###   ########.fr       */
+/*   Updated: 2021/09/13 12:00:58 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,25 +30,51 @@ void	close_semaphores(t_fork *forks, sem_t *all_alive_mtx)
 	sem_unlink(SEM_ALL_ALIVE);
 }
 
-void	wait_philos(t_philo *philos, int n_philos)
+void	finish_philo(t_philo *philos, int n_philos, int status, t_bool *died)
 {
-	int				status;
 	int				i;
 	struct timeval	time;
 
-	waitpid(-1, &status, 0);
 	i = 0;
 	while (i < n_philos)
 	{
-		if (philos[i].id == status >> 8)
+		if (philos[i].id == status)
 		{
 			gettimeofday(&time, NULL);
-			philo_log(PHILO_DEATH, &philos[i], time, philos[i].ab_time);
+			if (!*died)
+				philo_log(PHILO_DEATH, &philos[i], time, philos[i].ab_time);
+			*died = true;
 			break ;
 		}
 		i++;
 	}
 	sigkill_all_philos(philos, n_philos);
+}
+
+void	wait_philos(t_philo *philos, int n_philos)
+{
+	int				status;
+	int				done;
+	int				i;
+	t_bool			died;
+
+	status = 0;
+	done = 0;
+	died = false;
+	while (waitpid(-1, &status, 0) && done < n_philos)
+	{
+		status = status >> 8;
+		if (status > 0)
+			finish_philo(philos, n_philos, status, &died);
+		else
+			done++;
+	}
+	i = 0;
+	while (i < n_philos)
+	{
+		waitpid(philos[i].id, NULL, 0);
+		i++;
+	}
 }
 
 void	philo_bonus(t_data *data)
@@ -70,6 +96,7 @@ void	philo_bonus(t_data *data)
 	init_philos_time(philos, data->n_philos, &ab_time);
 	start_philos(philos, data->n_philos);
 	wait_philos(philos, data->n_philos);
+	close_semaphores(forks, all_alive_mtx);
 	free(philos);
 }
 

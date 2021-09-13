@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 19:58:43 by apavel            #+#    #+#             */
-/*   Updated: 2021/08/20 11:51:52 by apavel           ###   ########.fr       */
+/*   Updated: 2021/09/13 11:58:55 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 # define SEM_FORKS "forks_3"
 # define SEM_ALL_ALIVE "all_alive_3"
-# define CHECK_TIME 300
+# define CHECK_TIME 100
 
 typedef sem_t	t_fork;
 

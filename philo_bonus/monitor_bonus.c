@@ -6,7 +6,7 @@
 /*   By: apavel <apavel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 19:58:55 by apavel            #+#    #+#             */
-/*   Updated: 2021/09/04 20:15:42 by apavel           ###   ########.fr       */
+/*   Updated: 2021/09/13 12:00:48 by apavel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	*check_philo_death_thread(void *philo_data)
 	philo = (t_philo *)philo_data;
 	gettimeofday(&time, NULL);
 	time_diff = time_diff_ms(philo->eat_start, time);
-	while (time_diff <= (philo->time_to_die_ms + 1))
+	while (time_diff <= (philo->time_to_die_ms))
 	{
 		gettimeofday(&time, NULL);
 		usleep(CHECK_TIME);
